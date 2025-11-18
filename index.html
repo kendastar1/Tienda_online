@@ -1,0 +1,675 @@
+<!doctype html>
+<html lang="es" data-bs-theme="auto">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="" />
+    <meta name="author" content="Tu Nombre" />
+    <meta name="generator" content="Astro v5.13.2" />
+    <title>ESTILO REAL · Moda Elegante</title>
+    <link
+      rel="canonical"
+      href="https://getbootstrap.com/docs/5.3/examples/carousel/"
+    />
+    <script src="assets/js/color-modes.js"></script>
+    <link href="assets/dist/css/bootstrap.min.css" rel="stylesheet" />
+    
+    <!-- Google Fonts para tipografía elegante -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    
+    <meta name="theme-color" content="#ffffff" />
+    <link href="carousel.css" rel="stylesheet" />
+    <link href="assets/dist/css/stilo.css" rel="stylesheet" />
+    <link href="tienda/css/stilo.css" rel="stylesheet" />
+
+  
+    
+
+  </head>
+  <body>
+    <svg xmlns="http://www.w3.org/2000/svg" class="d-none">
+      <symbol id="check2" viewBox="0 0 16 16">
+        <path
+          d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"
+        ></path>
+      </symbol>
+      <symbol id="circle-half" viewBox="0 0 16 16">
+        <path
+          d="M8 15A7 7 0 1 0 8 1v14zm0 1A8 8 0 1 1 8 0a8 8 0 0 1 0 16z"
+        ></path>
+      </symbol>
+      <symbol id="moon-stars-fill" viewBox="0 0 16 16">
+        <path
+          d="M6 .278a.768.768 0 0 1 .08.858 7.208 7.208 0 0 0-.878 3.46c0 4.021 3.278 7.277 7.318 7.277.527 0 1.04-.055 1.533-.16a.787.787 0 0 1 .81.316.733.733 0 0 1-.031.893A8.349 8.349 0 0 1 8.344 16C3.734 16 0 12.286 0 7.71 0 4.266 2.114 1.312 5.124.06A.752.752 0 0 1 6 .278z"
+        ></path>
+        <path
+          d="M10.794 3.148a.217.217 0 0 1 .412 0l.387 1.162c.173.518.579.924 1.097 1.097l1.162.387a.217.217 0 0 1 0 .412l-1.162.387a1.734 1.734 0 0 0-1.097 1.097l-.387 1.162a.217.217 0 0 1-.412 0l-.387-1.162A1.734 1.734 0 0 0 9.31 6.593l-1.162-.387a.217.217 0 0 1 0-.412l1.162-.387a1.734 1.734 0 0 0 1.097-1.097l.387-1.162zM13.863.099a.145.145 0 0 1 .274 0l.258.774c.115.346.386.617.732.732l.774.258a.145.145 0 0 1 0 .274l-.774.258a1.156 1.156 0 0 0-.732.732l-.258.774a.145.145 0 0 1-.274 0l-.258-.774a1.156 1.156 0 0 0-.732-.732l-.774-.258a.145.145 0 0 1 0-.274l.774-.258c.346-.115.617-.386.732-.732L13.863.1z"
+        ></path>
+      </symbol>
+      <symbol id="sun-fill" viewBox="0 0 16 16">
+        <path
+          d="M8 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0zm0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13zm8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5zM3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8zm10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0zm-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0zm9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707zM4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708z"
+        ></path>
+      </symbol>
+    </svg>
+
+    <!-- Header y Navegación BLANCA -->
+    <header>
+      <nav class="navbar navbar-expand-md navbar-light fixed-top bg-white border-bottom">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#">ESTILO REAL</a>
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarCollapse"
+            aria-controls="navbarCollapse"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav me-auto mb-2 mb-md-0">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="#">Inicio</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Colección</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Categorías</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Nosotros</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Contacto</a>
+              </li>
+            </ul>
+            <div class="nav-icons">
+              <!-- Barra de búsqueda integrada en el menú -->
+              <div class="search-container">
+                <input 
+                  type="text" 
+                  class="search-input" 
+                  placeholder="Buscar productos..."
+                >
+                <a href="#" class="nav-icon">
+                  <i class="bi bi-search"></i>
+                </a>
+              </div>
+              
+              <!-- Corazón para favoritos -->
+              <a href="#" class="nav-icon">
+                <i class="bi bi-heart"></i>
+              </a>
+              
+              <!-- Carrito de compras -->
+              <a href="#" class="nav-icon">
+                <i class="bi bi-cart3"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main>
+      <!-- Carrusel Principal -->
+      <div id="myCarousel" class="carousel slide mb-6" data-bs-ride="carousel" data-bs-interval="5000">
+        <div class="carousel-indicators">
+          <button
+            type="button"
+            data-bs-target="#myCarousel"
+            data-bs-slide-to="0"
+            class="active"
+            aria-current="true"
+            aria-label="Slide 1"
+          ></button>
+          <button
+            type="button"
+            data-bs-target="#myCarousel"
+            data-bs-slide-to="1"
+            aria-label="Slide 2"
+          ></button>
+          <button
+            type="button"
+            data-bs-target="#myCarousel"
+            data-bs-slide-to="2"
+            aria-label="Slide 3"
+          ></button>
+        </div>
+        <div class="carousel-inner">
+          <!-- Slide 1 - Colección Principal (IZQUIERDA) -->
+          <div class="carousel-item active">
+            <div class="carousel-content">
+              <div class="carousel-subtitle">NUEVA COLECCIÓN</div>
+              <h1 class="carousel-title">ESTILO REAL</h1>
+              <div class="carousel-season">Otoño-Invierno 2025</div>
+              <p class="carousel-description">
+                Descubre la exquisita colección de temporada. Refinamiento, distinción y elegancia en cada pieza.
+              </p>
+              <div class="carousel-buttons">
+                <a href="#" class="btn btn-elegant">EXPLORAR</a>
+                <a href="#" class="btn btn-dark">VER COLECCIÓN</a>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Slide 2 - Lujo y Elegancia (CENTRO) -->
+          <div class="carousel-item">
+            <div class="carousel-content">
+              <div class="carousel-subtitle">COLECCIÓN EXCLUSIVA</div>
+              <h1 class="carousel-title">LUJO ATEMPORAL</h1>
+              <div class="carousel-season">Edición Limitada</div>
+              <p class="carousel-description">
+                Piezas únicas diseñadas para quienes buscan la excelencia en cada detalle y la perfección en el estilo.
+              </p>
+              <div class="carousel-buttons">
+                <a href="#" class="btn btn-elegant">DESCUBRIR</a>
+                <a href="#" class="btn btn-dark">RESERVAR</a>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Slide 3 - Nueva Temporada (IZQUIERDA) -->
+          <div class="carousel-item">
+            <div class="carousel-content">
+              <div class="carousel-subtitle">PRÓXIMAMENTE</div>
+              <h1 class="carousel-title">PRIMAVERA 2025</h1>
+              <div class="carousel-season">Pre-collección</div>
+              <p class="carousel-description">
+                Sé el primero en descubrir las tendencias que marcarán la próxima temporada. Frescura y sofisticación.
+              </p>
+              <div class="carousel-buttons">
+                <a href="#" class="btn btn-elegant">NOTIFICARME</a>
+                <a href="#" class="btn btn-dark">VER AVANCE</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <button
+          class="carousel-control-prev"
+          type="button"
+          data-bs-target="#myCarousel"
+          data-bs-slide="prev"
+        >
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button
+          class="carousel-control-next"
+          type="button"
+          data-bs-target="#myCarousel"
+          data-bs-slide="next"
+        >
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
+      </div>
+   <section class="container my-5">
+ <section class="container my-5">
+  <!-- Encabezado y filtros alineados a la izquierda -->
+  <div class="mb-4">
+    <div class="d-flex flex-wrap align-items-center gap-3 mb-3">
+      <button class="btn-filter active">Todo</button>
+      <button class="btn-filter">Chaquetas</button>
+      <button class="btn-filter">Camisas</button>
+      <button class="btn-filter">Vestidos</button>
+      <button class="btn-filter">Jeans</button>
+      <button class="btn-filter">Zapatos</button>
+      <button class="btn-filter">Suéteres</button>
+    </div>
+
+    <!-- Línea decorativa debajo de los botones -->
+    <div class="filter-divider"></div>
+
+    <h2 class="section-title mt-4">Todos los Productos</h2>
+    <p class="section-subtitle">Descubre nuestra selección exclusiva</p>
+  </div>
+
+  <!-- Cuadrícula de productos -->
+  <div class="row g-4">
+    <!-- 1 -->
+    <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+      <div class="product-card">
+        <div class="product-image">
+          <span class="badge-sale">-20%</span>
+          <img src="https://images.unsplash.com/photo-1740711152088-88a009e877bb?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtYW4lMjBzaGlydCUyMHN0eWxlfGVufDF8fHx8MTc2MTc3MDEzMnww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral" alt="Chaqueta">
+             <div class="product-overlay">
+        <a href="#" class="btn-view-details">VER DETALLES</a>
+      </div>
+          <button class="btn-fav"><i class="bi bi-heart"></i></button>
+        </div>
+        <div class="product-info">
+          <p class="product-category">CHAQUETAS</p>
+          <h5 class="product-title">Chaqueta de Cuero Premium</h5>
+          <p class="product-price">$129.99 <span>$159.99</span></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2 -->
+    <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+      <div class="product-card">
+        <div class="product-image">
+          <span class="badge-new">Nuevo</span>
+          <img src="https://images.unsplash.com/photo-1523381210434-271e8be1f52b?auto=format&fit=crop&w=800&q=80" alt="Vestido">
+             <div class="product-overlay">
+        <a href="#" class="btn-view-details">VER DETALLES</a>
+      </div>
+          <button class="btn-fav"><i class="bi bi-heart"></i></button>
+        </div>
+        <div class="product-info">
+          <p class="product-category">VESTIDOS</p>
+          <h5 class="product-title">Vestido Floral Primavera</h5>
+          <p class="product-price">$79.99</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3 -->
+    <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+      <div class="product-card">
+        <div class="product-image">
+          <span class="badge-new">Nuevo</span>
+          <img src="https://images.unsplash.com/photo-1761117228880-df2425bd70da?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx3b21hbiUyMGJsb3VzZXxlbnwxfHx8fDE3NjE3NzAzMzh8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral" alt="Blusa">
+             <div class="product-overlay">
+        <a href="#" class="btn-view-details">VER DETALLES</a>
+      </div>
+          <button class="btn-fav"><i class="bi bi-heart"></i></button>
+        </div>
+        <div class="product-info">
+          <p class="product-category">BLUSAS</p>
+          <h5 class="product-title">Blusa Elegante</h5>
+          <p class="product-price">$45.99</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4 -->
+    <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+      <div class="product-card">
+        <div class="product-image">
+          <img src="https://images.unsplash.com/photo-1637819976869-928427bd7380?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzd2VhdGVyJTIwY2xvdGhpbmd8ZW58MXx8fHwxNzYxNzcwMTMyfDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral" alt="Suéter">
+             <div class="product-overlay">
+        <a href="#" class="btn-view-details">VER DETALLES</a>
+      </div>
+          <button class="btn-fav"><i class="bi bi-heart"></i></button>
+        </div>
+        <div class="product-info">
+          <p class="product-category">SUÉTERES</p>
+          <h5 class="product-title">Suéter de Lana</h5>
+          <p class="product-price">$59.99</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5 -->
+    <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+      <div class="product-card">
+        <div class="product-image">
+          <span class="badge-sale">-15%</span>
+          <img src="https://images.unsplash.com/photo-1514996937319-344454492b37?auto=format&fit=crop&w=800&q=80" alt="Jeans">
+             <div class="product-overlay">
+        <a href="#" class="btn-view-details">VER DETALLES</a>
+      </div>
+          <button class="btn-fav"><i class="bi bi-heart"></i></button>
+        </div>
+        <div class="product-info">
+          <p class="product-category">JEANS</p>
+          <h5 class="product-title">Jeans Clásicos Azules</h5>
+          <p class="product-price">$64.99 <span>$75.99</span></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 6 -->
+    <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+      <div class="product-card">
+        <div class="product-image">
+          <img src="https://blackbison.co/cdn/shop/files/SNK_806_Negro_Lifestyle-10.webp?v=1760545329&width=1365" alt="Zapatos">
+             <div class="product-overlay">
+        <a href="#" class="btn-view-details">VER DETALLES</a>
+      </div>
+          <button class="btn-fav"><i class="bi bi-heart"></i></button>
+        </div>
+        <div class="product-info">
+          <p class="product-category">ZAPATOS</p>
+          <h5 class="product-title">Zapatos de Cuero Negro</h5>
+          <p class="product-price">$89.99</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 7 -->
+    <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+      <div class="product-card">
+        <div class="product-image">
+          <span class="badge-new">Nuevo</span>
+          <img src="https://images.unsplash.com/photo-1551024601-bec78aea704b?auto=format&fit=crop&w=800&q=80" alt="Camisa blanca">
+             <div class="product-overlay">
+        <a href="#" class="btn-view-details">VER DETALLES</a>
+      </div>
+          <button class="btn-fav"><i class="bi bi-heart"></i></button>
+        </div>
+        <div class="product-info">
+          <p class="product-category">CAMISAS</p>
+          <h5 class="product-title">Camisa Blanca Clásica</h5>
+          <p class="product-price">$54.99</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 8 -->
+    <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+      <div class="product-card">
+        <div class="product-image">
+          <img src="https://images.unsplash.com/photo-1503341455253-b2e723bb3dbb?auto=format&fit=crop&w=800&q=80" alt="Abrigo largo">
+             <div class="product-overlay">
+        <a href="#" class="btn-view-details">VER DETALLES</a>
+      </div>
+          <button class="btn-fav"><i class="bi bi-heart"></i></button>
+        </div>
+        <div class="product-info">
+          <p class="product-category">CHAQUETAS</p>
+          <h5 class="product-title">Abrigo Largo Beige</h5>
+          <p class="product-price">$139.99</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 9 -->
+    <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+      <div class="product-card">
+        <div class="product-image">
+          <span class="badge-sale">-10%</span>
+          <img src="https://acdn-us.mitiendanube.com/stores/027/750/products/nube-runa-negro31-2ea636ef34daebab1116698435041290-480-0.webp" alt="Vestido negro">
+             <div class="product-overlay">
+        <a href="#" class="btn-view-details">VER DETALLES</a>
+      </div>
+          <button class="btn-fav"><i class="bi bi-heart"></i></button>
+        </div>
+        <div class="product-info">
+          <p class="product-category">VESTIDOS</p>
+          <h5 class="product-title">Vestido Negro Noche</h5>
+          <p class="product-price">$109.99 <span>$122.99</span></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 10 -->
+    <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+      <div class="product-card">
+        <div class="product-image">
+          <img src="https://cdn.faire.com/fastly/08fa9aad998f3470da72c53c6ed6dc8640cd8266f1ee8afd91676124c0e4e3e2.jpeg?bg-color=FFFFFF&canvas=720:720&dpr=1&fit=bounds&format=jpg&height=720&width=720" alt="Bufanda">
+             <div class="product-overlay">
+        <a href="#" class="btn-view-details">VER DETALLES</a>
+      </div>
+          <button class="btn-fav"><i class="bi bi-heart"></i></button>
+        </div>
+        <div class="product-info">
+          <p class="product-category">ACCESORIOS</p>
+          <h5 class="product-title">Bufanda de Cachemira</h5>
+          <p class="product-price">$39.99</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 11 -->
+    <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+      <div class="product-card">
+        <div class="product-image">
+          <span class="badge-new">Nuevo</span>
+          <img src="https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=800&q=80" alt="Reloj">
+             <div class="product-overlay">
+        <a href="#" class="btn-view-details">VER DETALLES</a>
+      </div>
+          <button class="btn-fav"><i class="bi bi-heart"></i></button>
+        </div>
+        <div class="product-info">
+          <p class="product-category">ACCESORIOS</p>
+          <h5 class="product-title">Reloj Minimalista Plateado</h5>
+          <p class="product-price">$129.99</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 12 -->
+    <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+      <div class="product-card">
+        <div class="product-image">
+          <img src="https://images.unsplash.com/photo-1502741338009-cac2772e18bc?auto=format&fit=crop&w=800&q=80" alt="Bolso negro">
+             <div class="product-overlay">
+        <a href="#" class="btn-view-details">VER DETALLES</a>
+      </div>
+          <button class="btn-fav"><i class="bi bi-heart"></i></button>
+        </div>
+        <div class="product-info">
+          <p class="product-category">BOLSOS</p>
+          <h5 class="product-title">Bolso de Mano Negro</h5>
+          <p class="product-price">$89.99</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="video-collection-section full-width">
+  <div class="video-container">
+    <!-- Video de personas mostrando estilo -->
+    <video autoplay muted loop class="collection-video">
+      <source src="tienda/video.mp4" type="video/mp4">
+      Tu navegador no soporta el elemento video.
+    </video>
+    
+    <!-- Overlay para mejor contraste -->
+    <div class="video-overlay"></div>
+    
+    <!-- Contenido superpuesto CENTRADO -->
+    <div class="video-content centered">
+      <div class="video-subtitle">COLECCIÓN EXCLUSIVA</div>
+      <h2 class="video-title">ESTILO URBANO</h2>
+      <div class="video-season">Edición 2025</div>
+      <p class="video-description">
+        Descubre tu estilo único con nuestra nueva colección urbana. 
+        Donde la comodidad se encuentra con la elegancia contemporánea.
+      </p>
+      <a href="#" class="btn-video-explore">DESCUBRIR COLECCIÓN</a>
+    </div>
+  </div>
+</section>
+<!-- Sección EXPLORA NUESTRAS COLECCIONES -->
+<section class="collections-section">
+  <div class="container">
+    <!-- Título principal -->
+    <div class="collections-header">
+      <h2 class="collections-main-title">EXPLORA NUESTRAS COLECCIONES</h2>
+    </div>
+
+    <!-- Grid de colecciones -->
+    <div class="collections-grid">
+      <!-- RELOJES -->
+      <div class="collection-card">
+        <div class="collection-image">
+          <img src="https://images.unsplash.com/photo-1523170335258-f5ed11844a49?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Relojes de lujo">
+          <div class="collection-overlay">
+            <h3 class="collection-title">RELOJES</h3>
+            <a href="#" class="collection-link">VER COLECCIÓN</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- ACCESORIOS -->
+      <div class="collection-card">
+        <div class="collection-image">
+          <img src="https://images.unsplash.com/photo-1594223274512-ad4803739b7c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Accesorios elegantes">
+          <div class="collection-overlay">
+            <h3 class="collection-title">ACCESORIOS</h3>
+            <a href="#" class="collection-link">VER COLECCIÓN</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- BOLSOS DE DISEÑO -->
+      <div class="collection-card">
+        <div class="collection-image">
+          <img src="https://images.unsplash.com/photo-1584917865442-de89df76afd3?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Bolsos de diseño">
+          <div class="collection-overlay">
+            <h3 class="collection-title">BOLSOS DE DISEÑO</h3>
+            <a href="#" class="collection-link">VER COLECCIÓN</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- CALZADO -->
+      <div class="collection-card">
+        <div class="collection-image">
+          <img src="https://images.unsplash.com/photo-1542280756-74b2f55e73ab?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Calzado premium">
+          <div class="collection-overlay">
+            <h3 class="collection-title">CALZADO</h3>
+            <a href="#" class="collection-link">VER COLECCIÓN</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- FOOTER ELEGANTE -->
+<footer class="elegant-footer">
+  <div class="container">
+    <div class="footer-content">
+      <!-- Columna 1: Logo y descripción -->
+      <div class="footer-column">
+        <h3 class="footer-logo">ESTILO REAL</h3>
+        <p class="footer-description">
+          Donde la elegancia se encuentra con la autenticidad. Descubre piezas únicas que definen tu estilo personal.
+        </p>
+        <div class="social-links">
+          <a href="#" class="social-link">
+            <i class="bi bi-instagram"></i>
+          </a>
+          <a href="#" class="social-link">
+            <i class="bi bi-facebook"></i>
+          </a>
+          <a href="#" class="social-link">
+            <i class="bi bi-pinterest"></i>
+          </a>
+          <a href="#" class="social-link">
+            <i class="bi bi-tiktok"></i>
+          </a>
+        </div>
+      </div>
+
+      <!-- Columna 2: Enlaces rápidos -->
+      <div class="footer-column">
+        <h4 class="footer-title">COLECCIONES</h4>
+        <ul class="footer-links">
+          <li><a href="#">Nueva Temporada</a></li>
+          <li><a href="#">Edición Limitada</a></li>
+          <li><a href="#">Pre-collección</a></li>
+          <li><a href="#">Archivo</a></li>
+          <li><a href="#">Cápsulas</a></li>
+        </ul>
+      </div>
+
+      <!-- Columna 3: Categorías -->
+      <div class="footer-column">
+        <h4 class="footer-title">CATEGORÍAS</h4>
+        <ul class="footer-links">
+          <li><a href="#">Chaquetas</a></li>
+          <li><a href="#">Vestidos</a></li>
+          <li><a href="#">Blusas</a></li>
+          <li><a href="#">Suéteres</a></li>
+          <li><a href="#">Jeans</a></li>
+          <li><a href="#">Zapatos</a></li>
+          <li><a href="#">Accesorios</a></li>
+        </ul>
+      </div>
+
+      <!-- Columna 4: Contacto y newsletter -->
+      <div class="footer-column">
+        <h4 class="footer-title">MANTENTE INFORMADO</h4>
+        <p class="newsletter-text">
+          Suscríbete para recibir novedades exclusivas y acceso anticipado a nuevas colecciones.
+        </p>
+        <form class="newsletter-form">
+          <div class="input-group">
+            <input type="email" class="form-control" placeholder="Tu email" required>
+            <button type="submit" class="btn-newsletter">
+              <i class="bi bi-arrow-right"></i>
+            </button>
+          </div>
+        </form>
+        
+        <div class="contact-info">
+          <p><i class="bi bi-envelope"></i> EstiloReal@gmail.com</p>
+          <p><i class="bi bi-telephone"></i> +57 (310) 580-8082</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Línea divisoria -->
+    <div class="footer-divider"></div>
+
+    <!-- Footer inferior -->
+    <div class="footer-bottom">
+      <div class="footer-bottom-content">
+        <p class="copyright">
+          &copy; 2025 ESTILO REAL. Todos los derechos reservados.
+        </p>
+        <div class="footer-bottom-links">
+          <a href="#">Privacidad</a>
+          <a href="#">Términos</a>
+          <a href="#">Cookies</a>
+          <a href="#">Aviso legal</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+    </main>
+    <script
+      src="assets/dist/js/bootstrap.bundle.min.js"
+      class="astro-vvvwv3sm"
+    ></script>
+    
+    <script>
+      // JavaScript para mostrar/ocultar la barra de búsqueda al hacer clic en la lupa
+      document.addEventListener('DOMContentLoaded', function() {
+        const searchIcon = document.querySelector('.search-container .nav-icon');
+        const searchInput = document.querySelector('.search-input');
+        
+        searchIcon.addEventListener('click', function(e) {
+          e.preventDefault();
+          searchInput.classList.toggle('active');
+          if (searchInput.classList.contains('active')) {
+            searchInput.focus();
+          }
+        });
+        
+        // Ocultar la barra de búsqueda al hacer clic fuera
+        document.addEventListener('click', function(e) {
+          if (!searchIcon.contains(e.target) && !searchInput.contains(e.target)) {
+            searchInput.classList.remove('active');
+          }
+        });
+        
+        // Ocultar al presionar Escape
+        searchInput.addEventListener('keydown', function(e) {
+          if (e.key === 'Escape') {
+            searchInput.classList.remove('active');
+          }
+        });
+      });
+    </script>
+  </body>
+</html>
