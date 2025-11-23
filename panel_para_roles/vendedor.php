@@ -1,5 +1,4 @@
-[file name]: vendedor.php
-[file content begin]
+
 <?php
 session_start();
 require_once 'conexion.php';

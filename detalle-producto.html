@@ -1,0 +1,1121 @@
+<!doctype html>
+<html lang="es" data-bs-theme="auto">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="" />
+    <meta name="author" content="Tu Nombre" />
+    <meta name="generator" content="Astro v5.13.2" />
+    <title>ESTILO REAL · Detalles del Producto</title>
+    <link
+      rel="canonical"
+      href="https://getbootstrap.com/docs/5.3/examples/carousel/"
+    />
+    <script src="assets/js/color-modes.js"></script>
+    <link href="assets/dist/css/bootstrap.min.css" rel="stylesheet" />
+    
+    <!-- Google Fonts para tipografía elegante -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    
+    <meta name="theme-color" content="#ffffff" />
+    <link href="carousel.css" rel="stylesheet" />
+    <link href="assets/dist/css/stilo.css" rel="stylesheet" />
+    <link href="tienda/css/stilo.css" rel="stylesheet" />
+
+    <style>
+      /* Estilos específicos para la página de detalles del producto */
+      .product-detail-section {
+        padding: 100px 0 60px;
+      }
+      
+      .product-image-container {
+        position: relative;
+        overflow: hidden;
+      }
+      
+      .product-main-image {
+        width: 100%;
+        height: 600px;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+      }
+      
+      .product-thumbnails {
+        display: flex;
+        gap: 10px;
+        margin-top: 15px;
+      }
+      
+      .product-thumbnail {
+        width: 80px;
+        height: 80px;
+        object-fit: cover;
+        cursor: pointer;
+        border: 1px solid #e5e5e5;
+        transition: all 0.3s ease;
+      }
+      
+      .product-thumbnail.active {
+        border-color: #000;
+      }
+      
+      .product-info-container {
+        padding-left: 40px;
+      }
+      
+      .product-category {
+        font-family: 'Inter', sans-serif;
+        font-size: 0.9rem;
+        color: #8a8a8a;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-bottom: 10px;
+      }
+      
+      .product-title {
+        font-family: 'Playfair Display', serif;
+        font-size: 2.5rem;
+        font-weight: 600;
+        color: #000;
+        margin-bottom: 15px;
+        line-height: 1.2;
+      }
+      
+      .product-rating {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 20px;
+      }
+      
+      .rating-stars {
+        color: #ffc107;
+      }
+      
+      .rating-text {
+        font-family: 'Inter', sans-serif;
+        font-size: 0.9rem;
+        color: #666;
+      }
+      
+      .product-price {
+        font-family: 'Playfair Display', serif;
+        font-size: 1.8rem;
+        font-weight: 600;
+        color: #000;
+        margin-bottom: 25px;
+      }
+      
+      .product-description {
+        font-family: 'Inter', sans-serif;
+        font-size: 1rem;
+        line-height: 1.6;
+        color: #666;
+        margin-bottom: 30px;
+      }
+      
+      .option-section {
+        margin-bottom: 25px;
+      }
+      
+      .option-title {
+        font-family: 'Inter', sans-serif;
+        font-size: 1rem;
+        font-weight: 500;
+        color: #000;
+        margin-bottom: 12px;
+      }
+      
+      .color-options {
+        display: flex;
+        gap: 10px;
+      }
+      
+      .color-option {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        cursor: pointer;
+        border: 2px solid transparent;
+        transition: all 0.3s ease;
+      }
+      
+      .color-option.active {
+        border-color: #000;
+      }
+      
+      .size-options {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+      
+      .size-option {
+        padding: 8px 15px;
+        border: 1px solid #e5e5e5;
+        background: #fff;
+        cursor: pointer;
+        font-family: 'Inter', sans-serif;
+        font-size: 0.9rem;
+        transition: all 0.3s ease;
+      }
+      
+      .size-option.active {
+        background: #000;
+        color: #fff;
+        border-color: #000;
+      }
+      
+      .add-to-cart-btn {
+        background: #000;
+        color: #fff;
+        border: none;
+        padding: 15px 40px;
+        font-family: 'Playfair Display', serif;
+        font-size: 1rem;
+        letter-spacing: 1px;
+        width: 100%;
+        margin-bottom: 20px;
+        transition: all 0.3s ease;
+      }
+      
+      .add-to-cart-btn:hover {
+        background: #333;
+      }
+      
+      .shipping-info {
+        font-family: 'Inter', sans-serif;
+        font-size: 0.85rem;
+        color: #666;
+        margin-bottom: 5px;
+      }
+      
+      .section-title {
+        font-family: 'Playfair Display', serif;
+        font-size: 1.8rem;
+        font-weight: 600;
+        margin-bottom: 30px;
+        text-align: left;
+        position: relative;
+        padding-bottom: 15px;
+      }
+      
+      .section-title::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 50px;
+        height: 2px;
+        background-color: #000;
+      }
+      
+      .related-products-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 25px;
+      }
+      
+      .reviews-section {
+        margin-top: 60px;
+      }
+      
+      .review-card {
+        background: #fff;
+        border: 1px solid #e5e5e5;
+        padding: 25px;
+        margin-bottom: 20px;
+      }
+      
+      .review-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 15px;
+      }
+      
+      .reviewer-name {
+        font-family: 'Inter', sans-serif;
+        font-weight: 600;
+        color: #000;
+        margin-bottom: 5px;
+      }
+      
+      .review-date {
+        font-family: 'Inter', sans-serif;
+        font-size: 0.85rem;
+        color: #999;
+      }
+      
+      .review-text {
+        font-family: 'Inter', sans-serif;
+        font-size: 0.95rem;
+        line-height: 1.6;
+        color: #666;
+      }
+      
+      @media (max-width: 992px) {
+        .product-info-container {
+          padding-left: 0;
+          margin-top: 40px;
+        }
+        
+        .related-products-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+      
+      @media (max-width: 768px) {
+        .product-title {
+          font-size: 2rem;
+        }
+        
+        .related-products-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <svg xmlns="http://www.w3.org/2000/svg" class="d-none">
+      <symbol id="check2" viewBox="0 0 16 16">
+        <path
+          d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"
+        ></path>
+      </symbol>
+      <symbol id="circle-half" viewBox="0 0 16 16">
+        <path
+          d="M8 15A7 7 0 1 0 8 1v14zm0 1A8 8 0 1 1 8 0a8 8 0 0 1 0 16z"
+        ></path>
+      </symbol>
+      <symbol id="moon-stars-fill" viewBox="0 0 16 16">
+        <path
+          d="M6 .278a.768.768 0 0 1 .08.858 7.208 7.208 0 0 0-.878 3.46c0 4.021 3.278 7.277 7.318 7.277.527 0 1.04-.055 1.533-.16a.787.787 0 0 1 .81.316.733.733 0 0 1-.031.893A8.349 8.349 0 0 1 8.344 16C3.734 16 0 12.286 0 7.71 0 4.266 2.114 1.312 5.124.06A.752.752 0 0 1 6 .278z"
+        ></path>
+        <path
+          d="M10.794 3.148a.217.217 0 0 1 .412 0l.387 1.162c.173.518.579.924 1.097 1.097l1.162.387a.217.217 0 0 1 0 .412l-1.162.387a1.734 1.734 0 0 0-1.097 1.097l-.387 1.162a.217.217 0 0 1-.412 0l-.387-1.162A1.734 1.734 0 0 0 9.31 6.593l-1.162-.387a.217.217 0 0 1 0-.412l1.162-.387a1.734 1.734 0 0 0 1.097-1.097l.387-1.162zM13.863.099a.145.145 0 0 1 .274 0l.258.774c.115.346.386.617.732.732l.774.258a.145.145 0 0 1 0 .274l-.774.258a1.156 1.156 0 0 0-.732.732l-.258.774a.145.145 0 0 1-.274 0l-.258-.774a1.156 1.156 0 0 0-.732-.732l-.774-.258a.145.145 0 0 1 0-.274l.774-.258c.346-.115.617-.386.732-.732L13.863.1z"
+        ></path>
+      </symbol>
+      <symbol id="sun-fill" viewBox="0 0 16 16">
+        <path
+          d="M8 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0zm0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13zm8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5zM3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8zm10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0zm-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0zm9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707zM4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708z"
+        ></path>
+      </symbol>
+    </svg>
+
+    <!-- Header y Navegación BLANCA -->
+    <header>
+      <nav class="navbar navbar-expand-md navbar-light fixed-top bg-white border-bottom">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="index.html">ESTILO REAL</a>
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarCollapse"
+            aria-controls="navbarCollapse"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav me-auto mb-2 mb-md-0">
+              <li class="nav-item">
+                <a class="nav-link" href="index.html">Inicio</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Colección</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Categorías</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Nosotros</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Contacto</a>
+              </li>
+            </ul>
+            <div class="nav-icons">
+              <!-- Barra de búsqueda integrada en el menú -->
+              <div class="search-container">
+                <input 
+                  type="text" 
+                  class="search-input" 
+                  placeholder="Buscar productos..."
+                >
+                <a href="#" class="nav-icon">
+                  <i class="bi bi-search"></i>
+                </a>
+              </div>
+              
+              <!-- Corazón para favoritos -->
+              <a href="#" class="nav-icon">
+                <i class="bi bi-heart"></i>
+              </a>
+              
+              <!-- Carrito de compras -->
+              <a href="#" class="nav-icon">
+                <i class="bi bi-cart3"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main>
+      <!-- Sección de Detalles del Producto -->
+      <section class="product-detail-section">
+        <div class="container">
+          <div class="row">
+            <!-- Columna de Imágenes -->
+            <div class="col-md-6">
+              <div class="product-image-container">
+                <img 
+                  id="mainProductImage"
+                  alt="Producto" 
+                  class="product-main-image"
+                >
+              </div>
+              <div class="product-thumbnails" id="productThumbnails">
+                <!-- Las miniaturas se generarán dinámicamente -->
+              </div>
+            </div>
+            
+            <!-- Columna de Información -->
+            <div class="col-md-6">
+              <div class="product-info-container">
+                <p class="product-category" id="productCategory">CATEGORÍA</p>
+                <h1 class="product-title" id="productTitle">Nombre del Producto</h1>
+                
+                <div class="product-rating">
+                  <div class="rating-stars" id="productRating">
+                    <!-- Las estrellas se generarán dinámicamente -->
+                  </div>
+                  <span class="rating-text" id="ratingText">0.00 (0 reseñas)</span>
+                </div>
+                
+                <div class="product-price" id="productPrice">$0.00</div>
+                
+                <p class="product-description" id="productDescription">
+                  Descripción del producto.
+                </p>
+                
+                <!-- Selección de Color -->
+                <div class="option-section">
+                  <h3 class="option-title">Seleccionar Color</h3>
+                  <div class="color-options" id="colorOptions">
+                    <!-- Las opciones de color se generarán dinámicamente -->
+                  </div>
+                </div>
+                
+                <!-- Selección de Talla -->
+                <div class="option-section">
+                  <h3 class="option-title">Seleccionar Talla</h3>
+                  <div class="size-options" id="sizeOptions">
+                    <!-- Las opciones de talla se generarán dinámicamente -->
+                  </div>
+                </div>
+                
+                <button class="add-to-cart-btn">AÑADIR AL CARRITO</button>
+                
+                <p class="shipping-info">
+                  <i class="bi bi-truck"></i> Envío gratis en pedidos superiores a $150. Recibe en 3-5 días hábiles.
+                </p>
+                <p class="shipping-info">
+                  <i class="bi bi-arrow-repeat"></i> Devoluciones gratuitas hasta 30 días después de la compra.
+                </p>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Sección de Productos Relacionados -->
+          <div class="related-products-section" style="margin-top: 80px;">
+            <h2 class="section-title">También le puede interesar</h2>
+            <div class="related-products-grid" id="relatedProducts">
+              <!-- Los productos relacionados se generarán dinámicamente -->
+            </div>
+          </div>
+          
+          <!-- Sección de Opiniones de Clientes -->
+          <div class="reviews-section">
+            <h2 class="section-title">Opiniones de Clientes</h2>
+            <div id="productReviews">
+              <!-- Las reseñas se generarán dinámicamente -->
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- FOOTER ELEGANTE -->
+    <footer class="elegant-footer">
+      <div class="container">
+        <div class="footer-content">
+          <!-- Columna 1: Logo y descripción -->
+          <div class="footer-column">
+            <h3 class="footer-logo">ESTILO REAL</h3>
+            <p class="footer-description">
+              Donde la elegancia se encuentra con la autenticidad. Descubre piezas únicas que definen tu estilo personal.
+            </p>
+            <div class="social-links">
+              <a href="#" class="social-link">
+                <i class="bi bi-instagram"></i>
+              </a>
+              <a href="#" class="social-link">
+                <i class="bi bi-facebook"></i>
+              </a>
+              <a href="#" class="social-link">
+                <i class="bi bi-pinterest"></i>
+              </a>
+              <a href="#" class="social-link">
+                <i class="bi bi-tiktok"></i>
+              </a>
+            </div>
+          </div>
+
+          <!-- Columna 2: Enlaces rápidos -->
+          <div class="footer-column">
+            <h4 class="footer-title">COLECCIONES</h4>
+            <ul class="footer-links">
+              <li><a href="#">Nueva Temporada</a></li>
+              <li><a href="#">Edición Limitada</a></li>
+              <li><a href="#">Pre-collección</a></li>
+              <li><a href="#">Archivo</a></li>
+              <li><a href="#">Cápsulas</a></li>
+            </ul>
+          </div>
+
+          <!-- Columna 3: Categorías -->
+          <div class="footer-column">
+            <h4 class="footer-title">CATEGORÍAS</h4>
+            <ul class="footer-links">
+              <li><a href="#">Chaquetas</a></li>
+              <li><a href="#">Vestidos</a></li>
+              <li><a href="#">Blusas</a></li>
+              <li><a href="#">Suéteres</a></li>
+              <li><a href="#">Jeans</a></li>
+              <li><a href="#">Zapatos</a></li>
+              <li><a href="#">Accesorios</a></li>
+            </ul>
+          </div>
+
+          <!-- Columna 4: Contacto y newsletter -->
+          <div class="footer-column">
+            <h4 class="footer-title">MANTENTE INFORMADO</h4>
+            <p class="newsletter-text">
+              Suscríbete para recibir novedades exclusivas y acceso anticipado a nuevas colecciones.
+            </p>
+            <form class="newsletter-form">
+              <div class="input-group">
+                <input type="email" class="form-control" placeholder="Tu email" required>
+                <button type="submit" class="btn-newsletter">
+                  <i class="bi bi-arrow-right"></i>
+                </button>
+              </div>
+            </form>
+            
+            <div class="contact-info">
+              <p><i class="bi bi-envelope"></i> EstiloReal@gmail.com</p>
+              <p><i class="bi bi-telephone"></i> +57 (310) 580-8082</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Línea divisoria -->
+        <div class="footer-divider"></div>
+
+        <!-- Footer inferior -->
+        <div class="footer-bottom">
+          <div class="footer-bottom-content">
+            <p class="copyright">
+              &copy; 2025 ESTILO REAL. Todos los derechos reservados.
+            </p>
+            <div class="footer-bottom-links">
+              <a href="#">Privacidad</a>
+              <a href="#">Términos</a>
+              <a href="#">Cookies</a>
+              <a href="#">Aviso legal</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script
+      src="assets/dist/js/bootstrap.bundle.min.js"
+      class="astro-vvvwv3sm"
+    ></script>
+    
+    <script>
+      // Base de datos de productos
+      const products = {
+        1: {
+          id: 1,
+          category: "CHAQUETAS",
+          title: "Chaqueta de Cuero Premium",
+          price: 129.99,
+          originalPrice: 159.99,
+          description: "Chaqueta de cuero genuino de alta calidad, perfecta para cualquier ocasión. Diseño atemporal que combina estilo y durabilidad.",
+          images: [
+            "https://images.unsplash.com/photo-1740711152088-88a009e877bb?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtYW4lMjBzaGlydCUyMHN0eWxlfGVufDF8fHx8MTc2MTc3MDEzMnww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
+            "https://images.unsplash.com/photo-1552374196-1ab2a1c593e8?auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1551028719-00167b16eac5?auto=format&fit=crop&w=800&q=80"
+          ],
+          colors: ["Negro", "Marrón", "Grafito"],
+          sizes: ["XS", "S", "M", "L", "XL"],
+          rating: 4.0,
+          reviewsCount: 1,
+          reviews: [
+            {
+              name: "Carlos Mendoza",
+              date: "Hace 2 semanas",
+              rating: 5,
+              text: "La calidad de la chaqueta es excepcional. El cuero es de primera calidad y el ajuste es perfecto. Definitivamente superó mis expectativas."
+            }
+          ]
+        },
+        2: {
+          id: 2,
+          category: "VESTIDOS",
+          title: "Vestido Floral Primavera",
+          price: 79.99,
+          originalPrice: null,
+          description: "Hermoso vestido floral con diseño primaveral. Tela ligera y cómoda, perfecta para eventos diurnos y ocasiones especiales.",
+          images: [
+            "https://images.unsplash.com/photo-1523381210434-271e8be1f52b?auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1595777457583-95e059d581b8?auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?auto=format&fit=crop&w=800&q=80"
+          ],
+          colors: ["Rosa", "Azul", "Verde"],
+          sizes: ["XS", "S", "M", "L"],
+          rating: 4.5,
+          reviewsCount: 3,
+          reviews: [
+            {
+              name: "Ana García",
+              date: "Hace 1 mes",
+              rating: 5,
+              text: "Me encanta este vestido. Es muy cómodo y el diseño floral es hermoso. Recibí muchos cumplidos cuando lo usé."
+            },
+            {
+              name: "María López",
+              date: "Hace 3 semanas",
+              rating: 4,
+              text: "Bonito vestido, la tela es de buena calidad. Se ajusta bien y es perfecto para la primavera."
+            }
+          ]
+        },
+        3: {
+          id: 3,
+          category: "BLUSAS",
+          title: "Blusa Elegante",
+          price: 45.99,
+          originalPrice: null,
+          description: "Blusa elegante con detalles sutiles. Perfecta para el trabajo o eventos casuales. Tela suave y transpirable.",
+          images: [
+            "https://images.unsplash.com/photo-1761117228880-df2425bd70da?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx3b21hbiUyMGJsb3VzZXxlbnwxfHx8fDE3NjE3NzAzMzh8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
+            "https://images.unsplash.com/photo-1485231183945-fffde7cb39ef?auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1581044777550-4cfa60707c03?auto=format&fit=crop&w=800&q=80"
+          ],
+          colors: ["Blanco", "Negro", "Beige"],
+          sizes: ["XS", "S", "M", "L", "XL"],
+          rating: 4.2,
+          reviewsCount: 2,
+          reviews: [
+            {
+              name: "Laura Torres",
+              date: "Hace 2 meses",
+              rating: 4,
+              text: "Buena calidad por el precio. Se ve elegante y es cómoda de usar."
+            }
+          ]
+        },
+        4: {
+          id: 4,
+          category: "SUÉTERES",
+          title: "Suéter de Lana",
+          price: 59.99,
+          originalPrice: null,
+          description: "Suéter de lana natural, cálido y cómodo. Ideal para los días fríos. Diseño clásico que nunca pasa de moda.",
+          images: [
+            "https://images.unsplash.com/photo-1637819976869-928427bd7380?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzd2VhdGVyJTIwY2xvdGhpbmd8ZW58MXx8fHwxNzYxNzcwMTMyfDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
+            "https://images.unsplash.com/photo-1434389677669-e08b4cac3105?auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1574180045827-681f8a1a9622?auto=format&fit=crop&w=800&q=80"
+          ],
+          colors: ["Gris", "Azul marino", "Verde oscuro"],
+          sizes: ["S", "M", "L", "XL"],
+          rating: 4.7,
+          reviewsCount: 5,
+          reviews: [
+            {
+              name: "Roberto Sánchez",
+              date: "Hace 3 semanas",
+              rating: 5,
+              text: "Excelente suéter. Muy cálido y de buena calidad. La lana es suave y no pica."
+            },
+            {
+              name: "Carmen Ruiz",
+              date: "Hace 1 mes",
+              rating: 5,
+              text: "Me encanta este suéter. Es perfecto para el invierno y se ve muy elegante."
+            }
+          ]
+        },
+        5: {
+          id: 5,
+          category: "JEANS",
+          title: "Jeans Clásicos Azules",
+          price: 64.99,
+          originalPrice: 75.99,
+          description: "Jeans clásicos en azul medio. Corte recto y cómodo. Tela denim de alta calidad que mantiene su forma.",
+          images: [
+            "https://images.unsplash.com/photo-1514996937319-344454492b37?auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1542272604-787c3835535d?auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1582418702059-97ebafb35d09?auto=format&fit=crop&w=800&q=80"
+          ],
+          colors: ["Azul claro", "Azul medio", "Azul oscuro"],
+          sizes: ["28", "30", "32", "34", "36"],
+          rating: 4.3,
+          reviewsCount: 4,
+          reviews: [
+            {
+              name: "David González",
+              date: "Hace 2 semanas",
+              rating: 4,
+              text: "Buenos jeans, se ajustan bien y son cómodos. La calidad es buena por el precio."
+            }
+          ]
+        },
+        6: {
+          id: 6,
+          category: "ZAPATOS",
+          title: "Zapatos de Cuero Negro",
+          price: 89.99,
+          originalPrice: null,
+          description: "Zapatos formales de cuero negro. Perfectos para ocasiones especiales y uso diario en la oficina.",
+          images: [
+            "https://blackbison.co/cdn/shop/files/SNK_806_Negro_Lifestyle-10.webp?v=1760545329&width=1365",
+            "https://images.unsplash.com/photo-1542280756-74b2f55e73ab?auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1460353581641-37baddab0fa2?auto=format&fit=crop&w=800&q=80"
+          ],
+          colors: ["Negro", "Marrón"],
+          sizes: ["38", "39", "40", "41", "42", "43"],
+          rating: 4.8,
+          reviewsCount: 6,
+          reviews: [
+            {
+              name: "Miguel Ángel",
+              date: "Hace 1 mes",
+              rating: 5,
+              text: "Excelente calidad. Muy cómodos y se ven muy elegantes. Los uso para trabajar todos los días."
+            }
+          ]
+        },
+        7: {
+          id: 7,
+          category: "CAMISAS",
+          title: "Camisa Blanca Clásica",
+          price: 54.99,
+          originalPrice: null,
+          description: "Camisa blanca clásica de algodón. Corte perfecto para look formal o casual. Tela transpirable y de fácil cuidado.",
+          images: [
+            "https://images.unsplash.com/photo-1551024601-bec78aea704b?auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1621072156002-e2fccdc0b176?auto=format&fit=crop&w=800&q=80"
+          ],
+          colors: ["Blanco", "Azul claro"],
+          sizes: ["S", "M", "L", "XL", "XXL"],
+          rating: 4.4,
+          reviewsCount: 3,
+          reviews: [
+            {
+              name: "Javier Ramírez",
+              date: "Hace 2 meses",
+              rating: 5,
+              text: "Camisa de muy buena calidad. El corte es perfecto y la tela es cómoda."
+            }
+          ]
+        },
+        8: {
+          id: 8,
+          category: "CHAQUETAS",
+          title: "Abrigo Largo Beige",
+          price: 139.99,
+          originalPrice: null,
+          description: "Abrigo largo en color beige, perfecto para los días fríos. Diseño elegante y atemporal que complementa cualquier outfit.",
+          images: [
+            "https://images.unsplash.com/photo-1503341455253-b2e723bb3dbb?auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1539533018447-63fcce2678e4?auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1552068751-34cb19631369?auto=format&fit=crop&w=800&q=80"
+          ],
+          colors: ["Beige", "Camel", "Gris"],
+          sizes: ["XS", "S", "M", "L"],
+          rating: 4.6,
+          reviewsCount: 4,
+          reviews: [
+            {
+              name: "Sofía Martínez",
+              date: "Hace 3 semanas",
+              rating: 5,
+              text: "Hermoso abrigo. Muy cálido y de excelente calidad. Me encanta el color beige."
+            }
+          ]
+        },
+        9: {
+          id: 9,
+          category: "VESTIDOS",
+          title: "Vestido Negro Noche",
+          price: 109.99,
+          originalPrice: 122.99,
+          description: "Elegante vestido negro perfecto para eventos nocturnos. Diseño sofisticado con detalles únicos que realzan la silueta.",
+          images: [
+            "https://acdn-us.mitiendanube.com/stores/027/750/products/nube-runa-negro31-2ea636ef34daebab1116698435041290-480-0.webp",
+            "https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=800&q=80"
+          ],
+          colors: ["Negro", "Rojo vino", "Azul noche"],
+          sizes: ["XS", "S", "M", "L"],
+          rating: 4.9,
+          reviewsCount: 7,
+          reviews: [
+            {
+              name: "Elena Vargas",
+              date: "Hace 1 mes",
+              rating: 5,
+              text: "Vestido espectacular. Perfecto para eventos formales. La calidad es excelente y el ajuste es perfecto."
+            }
+          ]
+        },
+        10: {
+          id: 10,
+          category: "ACCESORIOS",
+          title: "Bufanda de Cachemira",
+          price: 39.99,
+          originalPrice: null,
+          description: "Bufanda de cachemira suave y cálida. Accesorio esencial para el invierno que combina estilo y funcionalidad.",
+          images: [
+            "https://cdn.faire.com/fastly/08fa9aad998f3470da72c53c6ed6dc8640cd8266f1ee8afd91676124c0e4e3e2.jpeg?bg-color=FFFFFF&canvas=720:720&dpr=1&fit=bounds&format=jpg&height=720&width=720",
+            "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1574180045827-681f8a1a9622?auto=format&fit=crop&w=800&q=80"
+          ],
+          colors: ["Gris", "Beige", "Burdeos"],
+          sizes: ["Única"],
+          rating: 4.5,
+          reviewsCount: 2,
+          reviews: [
+            {
+              name: "Andrea López",
+              date: "Hace 2 meses",
+              rating: 5,
+              text: "Muy suave y cálida. Perfecta para el invierno. La calidad de la cachemira es excelente."
+            }
+          ]
+        },
+        11: {
+          id: 11,
+          category: "ACCESORIOS",
+          title: "Reloj Minimalista Plateado",
+          price: 129.99,
+          originalPrice: null,
+          description: "Reloj de pulsera minimalista en color plateado. Diseño elegante y atemporal que complementa cualquier estilo.",
+          images: [
+            "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1523170335258-f5ed11844a49?auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1547996160-81dfd58739c1?auto=format&fit=crop&w=800&q=80"
+          ],
+          colors: ["Plateado", "Dorado"],
+          sizes: ["Ajustable"],
+          rating: 4.7,
+          reviewsCount: 8,
+          reviews: [
+            {
+              name: "Carlos Fernández",
+              date: "Hace 3 semanas",
+              rating: 5,
+              text: "Reloj hermoso. El diseño minimalista es exactamente lo que buscaba. Muy buena calidad."
+            }
+          ]
+        },
+        12: {
+          id: 12,
+          category: "BOLSOS",
+          title: "Bolso de Mano Negro",
+          price: 89.99,
+          originalPrice: null,
+          description: "Bolso de mano negro elegante y funcional. Diseño espacioso con compartimentos organizados. Perfecto para el día a día.",
+          images: [
+            "https://images.unsplash.com/photo-1502741338009-cac2772e18bc?auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=800&q=80"
+          ],
+          colors: ["Negro", "Marrón", "Rojo"],
+          sizes: ["Pequeño", "Mediano"],
+          rating: 4.4,
+          reviewsCount: 5,
+          reviews: [
+            {
+              name: "Patricia Gómez",
+              date: "Hace 1 mes",
+              rating: 4,
+              text: "Bonito bolso, buen tamaño para el día a día. La calidad parece buena por el precio."
+            }
+          ]
+        }
+      };
+
+      // JavaScript para funcionalidades de la página de detalles
+      document.addEventListener('DOMContentLoaded', function() {
+        // Obtener el ID del producto de la URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const productId = urlParams.get('product') || 1;
+        
+        // Cargar los datos del producto
+        const product = products[productId];
+        
+        if (product) {
+          // Actualizar la información del producto
+          document.getElementById('productCategory').textContent = product.category;
+          document.getElementById('productTitle').textContent = product.title;
+          
+          // Actualizar el precio
+          let priceHTML = `$${product.price.toFixed(2)}`;
+          if (product.originalPrice) {
+            priceHTML += ` <span style="text-decoration: line-through; color: #999; font-size: 1.2rem; margin-left: 10px;">$${product.originalPrice.toFixed(2)}</span>`;
+          }
+          document.getElementById('productPrice').innerHTML = priceHTML;
+          
+          // Actualizar la descripción
+          document.getElementById('productDescription').textContent = product.description;
+          
+          // Actualizar las imágenes
+          const mainImage = document.getElementById('mainProductImage');
+          mainImage.src = product.images[0];
+          mainImage.alt = product.title;
+          
+          // Generar miniaturas
+          const thumbnailsContainer = document.getElementById('productThumbnails');
+          thumbnailsContainer.innerHTML = '';
+          
+          product.images.forEach((image, index) => {
+            const thumbnail = document.createElement('img');
+            thumbnail.src = image;
+            thumbnail.alt = `${product.title} - Vista ${index + 1}`;
+            thumbnail.className = `product-thumbnail ${index === 0 ? 'active' : ''}`;
+            thumbnail.setAttribute('data-image', image);
+            thumbnail.addEventListener('click', function() {
+              // Remover clase active de todas las miniaturas
+              document.querySelectorAll('.product-thumbnail').forEach(t => t.classList.remove('active'));
+              
+              // Agregar clase active a la miniatura clickeada
+              this.classList.add('active');
+              
+              // Cambiar imagen principal
+              mainImage.src = this.getAttribute('data-image');
+            });
+            thumbnailsContainer.appendChild(thumbnail);
+          });
+          
+          // Actualizar la calificación
+          const ratingContainer = document.getElementById('productRating');
+          ratingContainer.innerHTML = '';
+          
+          const fullStars = Math.floor(product.rating);
+          const hasHalfStar = product.rating % 1 !== 0;
+          
+          for (let i = 0; i < 5; i++) {
+            const star = document.createElement('i');
+            if (i < fullStars) {
+              star.className = 'bi bi-star-fill';
+            } else if (i === fullStars && hasHalfStar) {
+              star.className = 'bi bi-star-half';
+            } else {
+              star.className = 'bi bi-star';
+            }
+            ratingContainer.appendChild(star);
+          }
+          
+          document.getElementById('ratingText').textContent = `${product.rating.toFixed(2)} (${product.reviewsCount} reseña${product.reviewsCount !== 1 ? 's' : ''})`;
+          
+          // Generar opciones de color
+          const colorOptionsContainer = document.getElementById('colorOptions');
+          colorOptionsContainer.innerHTML = '';
+          
+          product.colors.forEach((color, index) => {
+            const colorOption = document.createElement('div');
+            colorOption.className = `color-option ${index === 0 ? 'active' : ''}`;
+            colorOption.setAttribute('data-color', color);
+            
+            // Asignar color de fondo basado en el nombre del color
+            let bgColor = '#2c2c2c'; // Negro por defecto
+            if (color === 'Marrón') bgColor = '#8B4513';
+            if (color === 'Grafito') bgColor = '#36454F';
+            if (color === 'Rosa') bgColor = '#FFB6C1';
+            if (color === 'Azul') bgColor = '#1E90FF';
+            if (color === 'Verde') bgColor = '#228B22';
+            if (color === 'Blanco') bgColor = '#FFFFFF';
+            if (color === 'Beige') bgColor = '#F5F5DC';
+            if (color === 'Gris') bgColor = '#808080';
+            if (color === 'Azul marino') bgColor = '#000080';
+            if (color === 'Verde oscuro') bgColor = '#006400';
+            if (color === 'Azul claro') bgColor = '#87CEEB';
+            if (color === 'Azul medio') bgColor = '#1E90FF';
+            if (color === 'Azul oscuro') bgColor = '#00008B';
+            if (color === 'Camel') bgColor = '#C19A6B';
+            if (color === 'Rojo vino') bgColor = '#722F37';
+            if (color === 'Azul noche') bgColor = '#191970';
+            if (color === 'Burdeos') bgColor = '#800020';
+            if (color === 'Plateado') bgColor = '#C0C0C0';
+            if (color === 'Dorado') bgColor = '#FFD700';
+            if (color === 'Rojo') bgColor = '#FF0000';
+            
+            colorOption.style.backgroundColor = bgColor;
+            
+            colorOption.addEventListener('click', function() {
+              // Remover clase active de todas las opciones de color
+              document.querySelectorAll('.color-option').forEach(o => o.classList.remove('active'));
+              
+              // Agregar clase active a la opción clickeada
+              this.classList.add('active');
+            });
+            colorOptionsContainer.appendChild(colorOption);
+          });
+          
+          // Generar opciones de talla
+          const sizeOptionsContainer = document.getElementById('sizeOptions');
+          sizeOptionsContainer.innerHTML = '';
+          
+          product.sizes.forEach((size, index) => {
+            const sizeOption = document.createElement('div');
+            sizeOption.className = `size-option ${index === 0 ? 'active' : ''}`;
+            sizeOption.textContent = size;
+            sizeOption.setAttribute('data-size', size);
+            
+            sizeOption.addEventListener('click', function() {
+              // Remover clase active de todas las opciones de talla
+              document.querySelectorAll('.size-option').forEach(o => o.classList.remove('active'));
+              
+              // Agregar clase active a la opción clickeada
+              this.classList.add('active');
+            });
+            sizeOptionsContainer.appendChild(sizeOption);
+          });
+          
+          // Generar reseñas
+          const reviewsContainer = document.getElementById('productReviews');
+          reviewsContainer.innerHTML = '';
+          
+          product.reviews.forEach(review => {
+            const reviewCard = document.createElement('div');
+            reviewCard.className = 'review-card';
+            
+            // Generar estrellas para la reseña
+            let starsHTML = '';
+            for (let i = 0; i < 5; i++) {
+              if (i < review.rating) {
+                starsHTML += '<i class="bi bi-star-fill"></i>';
+              } else {
+                starsHTML += '<i class="bi bi-star"></i>';
+              }
+            }
+            
+            reviewCard.innerHTML = `
+              <div class="review-header">
+                <div>
+                  <h4 class="reviewer-name">${review.name}</h4>
+                  <div class="rating-stars">
+                    ${starsHTML}
+                  </div>
+                </div>
+                <span class="review-date">${review.date}</span>
+              </div>
+              <p class="review-text">${review.text}</p>
+            `;
+            
+            reviewsContainer.appendChild(reviewCard);
+          });
+          
+          // Generar productos relacionados (excluyendo el producto actual)
+          const relatedProductsContainer = document.getElementById('relatedProducts');
+          relatedProductsContainer.innerHTML = '';
+          
+          // Obtener productos de la misma categoría (excluyendo el actual)
+          const relatedProducts = Object.values(products)
+            .filter(p => p.category === product.category && p.id !== product.id)
+            .slice(0, 3); // Mostrar máximo 3 productos relacionados
+          
+          // Si no hay suficientes productos de la misma categoría, agregar productos aleatorios
+          if (relatedProducts.length < 3) {
+            const otherProducts = Object.values(products)
+              .filter(p => p.category !== product.category && p.id !== product.id)
+              .slice(0, 3 - relatedProducts.length);
+            
+            relatedProducts.push(...otherProducts);
+          }
+          
+          relatedProducts.forEach(relatedProduct => {
+            const productCard = document.createElement('div');
+            productCard.className = 'product-card';
+            
+            let priceHTML = `$${relatedProduct.price.toFixed(2)}`;
+            if (relatedProduct.originalPrice) {
+              priceHTML += ` <span>$${relatedProduct.originalPrice.toFixed(2)}</span>`;
+            }
+            
+            productCard.innerHTML = `
+              <div class="product-image">
+                <img src="${relatedProduct.images[0]}" alt="${relatedProduct.title}">
+                <div class="product-overlay">
+                  <a href="detalle-producto.html?product=${relatedProduct.id}" class="btn-view-details">VER DETALLES</a>
+                </div>
+                <button class="btn-fav"><i class="bi bi-heart"></i></button>
+              </div>
+              <div class="product-info">
+                <p class="product-category">${relatedProduct.category}</p>
+                <h5 class="product-title">${relatedProduct.title}</h5>
+                <p class="product-price">${priceHTML}</p>
+              </div>
+            `;
+            
+            relatedProductsContainer.appendChild(productCard);
+          });
+        }
+        
+        // JavaScript para mostrar/ocultar la barra de búsqueda
+        const searchIcon = document.querySelector('.search-container .nav-icon');
+        const searchInput = document.querySelector('.search-input');
+        
+        if (searchIcon && searchInput) {
+          searchIcon.addEventListener('click', function(e) {
+            e.preventDefault();
+            searchInput.classList.toggle('active');
+            if (searchInput.classList.contains('active')) {
+              searchInput.focus();
+            }
+          });
+          
+          // Ocultar la barra de búsqueda al hacer clic fuera
+          document.addEventListener('click', function(e) {
+            if (!searchIcon.contains(e.target) && !searchInput.contains(e.target)) {
+              searchInput.classList.remove('active');
+            }
+          });
+          
+          // Ocultar al presionar Escape
+          searchInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+              searchInput.classList.remove('active');
+            }
+          });
+        }
+      });
+    </script>
+  </body>
+</html>

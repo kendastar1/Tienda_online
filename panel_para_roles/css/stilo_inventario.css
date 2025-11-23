@@ -318,3 +318,350 @@
           min-width: 800px;
         }
       }
+    
+.product-image {
+  width: 50px;
+  height: 50px;
+  border-radius: 8px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f8fafc;
+  border: 2px solid #e2e8f0;
+}
+
+.product-thumbnail {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.product-image.no-image {
+  color: #cbd5e1;
+  background: #f1f5f9;
+}
+
+.image-preview, .current-image {
+  padding: 10px;
+  background: #f8fafc;
+  border-radius: 8px;
+  border: 2px dashed #e2e8f0;
+}
+
+.current-image p {
+  margin: 0 0 8px 0;
+  font-size: 0.875rem;
+  color: #64748b;
+  font-weight: 600;
+}
+
+.form-group small {
+  display: block;
+  margin-top: 4px;
+  color: #64748b;
+  font-size: 0.75rem;
+}
+
+/* Ajustes para la tabla con imágenes */
+.products-table td:first-child {
+  width: 70px;
+  text-align: center;
+}
+
+/* Estilos para las tarjetas de métricas del inventario */
+.inventory-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.inventory-card {
+    background: white;
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+    border: 1px solid #e2e8f0;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.inventory-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+}
+
+.inventory-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+}
+
+.inventory-card.total-products::before {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+}
+
+.inventory-card.low-stock::before {
+    background: linear-gradient(135deg, #f093fb, #f5576c);
+}
+
+.inventory-card.with-discount::before {
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+}
+
+.inventory-card.total-stock::before {
+    background: linear-gradient(135deg, #4facfe, #00f2fe);
+}
+
+.card-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.total-products .card-icon {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+}
+
+.low-stock .card-icon {
+    background: linear-gradient(135deg, #f093fb, #f5576c);
+    color: white;
+}
+
+.with-discount .card-icon {
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+    color: white;
+}
+
+.total-stock .card-icon {
+    background: linear-gradient(135deg, #4facfe, #00f2fe);
+    color: white;
+}
+
+.card-icon .material-symbols-rounded {
+    font-size: 28px;
+}
+
+.card-content {
+    flex: 1;
+}
+
+.card-value {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #1e293b;
+    line-height: 1;
+    margin-bottom: 4px;
+}
+
+.card-label {
+    font-size: 0.875rem;
+    color: #64748b;
+    font-weight: 500;
+}
+
+.card-trend {
+    color: #10b981;
+    display: flex;
+    align-items: center;
+}
+
+.card-trend.negative {
+    color: #ef4444;
+}
+
+.card-trend .material-symbols-rounded {
+    font-size: 24px;
+}
+
+/* Estilos para stock bajo en la tabla */
+.low-stock-row {
+    background-color: #fef2f2 !important;
+    border-left: 4px solid #ef4444;
+}
+
+.with-discount-row {
+    background-color: #fffbeb !important;
+    border-left: 4px solid #f59e0b;
+}
+
+.low-stock-badge {
+    background: #ef4444;
+    color: white;
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-weight: bold;
+    font-size: 0.875rem;
+}
+
+.discount-badge {
+    background: #f59e0b;
+    color: white;
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-weight: bold;
+    font-size: 0.875rem;
+}
+
+.final-price {
+    color: #10b981;
+    font-size: 1.1rem;
+}
+
+.sucursal-badge {
+    background: #3b82f6;
+    color: white;
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-weight: bold;
+    font-size: 0.875rem;
+}
+
+.categoria-badge {
+    background: #8b5cf6;
+    color: white;
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-weight: bold;
+    font-size: 0.875rem;
+}
+
+/* Form responsive */
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+/* Estilos para los nuevos filtros */
+.filters-container {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.filter-label {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #374151;
+    margin-bottom: 2px;
+}
+
+.filter-select {
+    padding: 8px 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    background: white;
+    font-size: 0.875rem;
+    color: #374151;
+    min-width: 150px;
+    cursor: pointer;
+}
+
+.filter-select:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+/* Mejoras responsive */
+@media (max-width: 768px) {
+  .product-image {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .products-table {
+    min-width: 1000px;
+  }
+
+  .inventory-cards {
+      grid-template-columns: 1fr;
+      gap: 16px;
+  }
+  
+  .inventory-card {
+      padding: 20px;
+  }
+  
+  .card-value {
+      font-size: 1.75rem;
+  }
+
+  .form-row {
+      grid-template-columns: 1fr;
+  }
+
+  .filters-container {
+      flex-direction: column;
+      gap: 10px;
+  }
+
+  .filter-select {
+      min-width: 100%;
+  }
+}
+.percentage-input-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.percentage-input-container input {
+    padding-right: 40px;
+}
+
+.percentage-symbol {
+    position: absolute;
+    right: 12px;
+    color: #64748b;
+    font-weight: 600;
+}
+
+/* Estilos para el desglose de precios */
+.price-breakdown {
+    background: #f8fafc;
+    padding: 15px;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+}
+
+.price-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 0;
+}
+
+.price-item.discount {
+    color: #ef4444;
+    font-weight: 600;
+}
+
+.price-item.final {
+    border-top: 2px solid #e2e8f0;
+    margin-top: 8px;
+    padding-top: 10px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #10b981;
+}

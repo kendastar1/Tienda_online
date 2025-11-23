@@ -1,0 +1,1078 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ESTILO REAL · Iniciar Sesión</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+  <style>
+    :root {
+      --font-primary: 'Playfair Display', serif;
+      --font-secondary: 'Inter', sans-serif;
+    }
+    
+    body {
+      font-family: var(--font-secondary);
+      background-color: #f8f9fa;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0;
+      background-image: url('imagen.png');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      position: relative;
+    }
+    
+    body::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.7);
+      z-index: 0;
+    }
+    
+    .login-container {
+      width: 100%;
+      max-width: 450px;
+      padding: 0 20px;
+      position: relative;
+      z-index: 1;
+    }
+    
+    .login-card {
+      background: #fff;
+      border-radius: 0;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+      padding: 40px 35px;
+      border: none;
+      position: relative;
+      overflow: hidden;
+      min-height: 500px;
+    }
+    
+    /* Líneas decorativas internas con flores en las esquinas */
+    .login-card::before {
+      content: '';
+      position: absolute;
+      top: 15px;
+      left: 15px;
+      right: 15px;
+      bottom: 15px;
+      border: 1px solid rgba(0, 0, 0, 0.4);
+      pointer-events: none;
+      z-index: 0;
+    }
+    
+    .login-card::after {
+      content: '';
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      right: 20px;
+      bottom: 20px;
+      border: 1px solid rgba(0, 0, 0, 0.4);
+      pointer-events: none;
+      z-index: 0;
+    }
+    
+    /* Flores en las esquinas de las líneas internas */
+    .line-flower {
+      position: absolute;
+      color: #000;
+      font-size: 0.9rem;
+      opacity: 0.6;
+      z-index: 1;
+      background: #fff;
+      padding: 2px;
+    }
+    
+    .flower-tl {
+      top: 14px;
+      left: 14px;
+    }
+    
+    .flower-tr {
+      top: 24px;
+      right: 24px;
+    }
+    
+    .flower-bl {
+      bottom: 24px;
+      left: 24px;
+    }
+    
+    .flower-br {
+      bottom: 24px;
+      right: 24px;
+    }
+    
+    .flower-tl-inner {
+      top: 25px;
+      left: 25px;
+    }
+    
+    .flower-tr-inner {
+      top: 19px;
+      right: 19px;
+    }
+    
+    .flower-bl-inner {
+      bottom: 25px;
+      left: 25px;
+    }
+    
+    .flower-br-inner {
+      bottom: 19px;
+      right: 19px;
+    }
+    
+    .form-section {
+      position: absolute;
+      width: calc(100% - 70px);
+      transition: transform 0.5s ease, opacity 0.5s ease;
+      z-index: 1;
+    }
+    
+    .login-form {
+      transform: translateX(0);
+      opacity: 1;
+    }
+    
+    .register-form {
+      transform: translateX(100%);
+      opacity: 0;
+    }
+    
+    .forgot-password-form {
+      transform: translateX(100%);
+      opacity: 0;
+    }
+    
+    .active-login .login-form {
+      transform: translateX(0);
+      opacity: 1;
+    }
+    
+    .active-login .register-form,
+    .active-login .forgot-password-form {
+      transform: translateX(100%);
+      opacity: 0;
+    }
+    
+    .active-register .register-form {
+      transform: translateX(0);
+      opacity: 1;
+    }
+    
+    .active-register .login-form,
+    .active-register .forgot-password-form {
+      transform: translateX(-100%);
+      opacity: 0;
+    }
+    
+    .active-forgot .forgot-password-form {
+      transform: translateX(0);
+      opacity: 1;
+    }
+    
+    .active-forgot .login-form,
+    .active-forgot .register-form {
+      transform: translateX(-100%);
+      opacity: 0;
+    }
+    
+    .login-logo {
+      font-family: var(--font-primary);
+      font-size: 2.2rem;
+      font-weight: 600;
+      text-align: center;
+      margin-bottom: 10px;
+      color: #000;
+      letter-spacing: 1px;
+      position: relative;
+    }
+    
+    .login-subtitle {
+      font-family: var(--font-secondary);
+      font-size: 1rem;
+      color: #666;
+      text-align: center;
+      margin-bottom: 25px;
+      position: relative;
+    }
+    
+    .form-group {
+      margin-bottom: 20px;
+      position: relative;
+    }
+    
+    .form-label {
+      font-family: var(--font-secondary);
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: #333;
+      margin-bottom: 8px;
+      display: block;
+      position: relative;
+    }
+    
+    .form-input {
+      border: none;
+      border-bottom: 1px solid #000;
+      border-radius: 0;
+      padding: 8px 0;
+      font-size: 0.95rem;
+      width: 100%;
+      outline: none;
+      background: transparent;
+      font-family: var(--font-secondary);
+      transition: all 0.3s ease;
+      position: relative;
+    }
+    
+    .form-input:focus {
+      border-bottom-color: #000;
+      box-shadow: none;
+    }
+    
+    .form-input::placeholder {
+      color: #999;
+      font-style: italic;
+      font-size: 0.9rem;
+    }
+    
+    .input-icon {
+      position: absolute;
+      right: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #000;
+      font-size: 1.1rem;
+    }
+    
+    .btn-login {
+      background-color: #000;
+      border: 1.5px solid #000;
+      color: #fff;
+      padding: 12px 30px;
+      font-family: var(--font-primary);
+      font-size: 1rem;
+      letter-spacing: 1px;
+      text-transform: none;
+      border-radius: 0;
+      transition: all 0.3s ease;
+      width: 100%;
+      margin-top: 15px;
+      cursor: pointer;
+      position: relative;
+    }
+    
+    .btn-login:hover {
+      background-color: transparent;
+      color: #000;
+    }
+    
+    .btn-login:disabled {
+      background-color: #666;
+      border-color: #666;
+      cursor: not-allowed;
+    }
+    
+    .login-links {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 20px;
+      font-size: 0.9rem;
+      position: relative;
+    }
+    
+    .login-links a {
+      color: #666;
+      text-decoration: none;
+      transition: color 0.3s ease;
+      font-family: var(--font-secondary);
+      cursor: pointer;
+    }
+    
+    .login-links a:hover {
+      color: #000;
+    }
+    
+    .signup-link {
+      text-align: center;
+      margin-top: 30px;
+      font-size: 0.9rem;
+      color: #666;
+      position: relative;
+    }
+    
+    .signup-link a {
+      color: #000;
+      text-decoration: none;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+    
+    .signup-link a:hover {
+      text-decoration: underline;
+    }
+    
+    .back-to-login {
+      text-align: center;
+      margin-top: 25px;
+      font-size: 0.9rem;
+      color: #666;
+      position: relative;
+    }
+    
+    .back-to-login a {
+      color: #000;
+      text-decoration: none;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+    
+    .back-to-login a:hover {
+      text-decoration: underline;
+    }
+    
+    /* Animación de carga elegante - MEJORADA */
+    .loading-animation {
+      display: none;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(255, 255, 255, 0.9);
+      z-index: 10;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      border-radius: 0;
+    }
+    
+    .loading-animation.active {
+      display: flex;
+    }
+    
+    .elegant-spinner {
+      width: 60px;
+      height: 60px;
+      border: 3px solid rgba(0, 0, 0, 0.1);
+      border-top: 3px solid #000;
+      border-radius: 50%;
+      animation: elegant-spin 1s linear infinite;
+      position: relative;
+    }
+    
+    .elegant-spinner::before {
+      content: '';
+      position: absolute;
+      top: -3px;
+      left: -3px;
+      right: -3px;
+      bottom: -3px;
+      border: 3px solid transparent;
+      border-top: 3px solid rgba(0, 0, 0, 0.3);
+      border-radius: 50%;
+      animation: elegant-spin 1.5s linear infinite;
+    }
+    
+    @keyframes elegant-spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
+    .loading-text {
+      margin-top: 15px;
+      font-family: var(--font-secondary);
+      font-size: 0.9rem;
+      color: #000;
+      text-align: center;
+      letter-spacing: 1px;
+    }
+    
+    /* Notificaciones centradas estilo blanco elegante - ANIMACIONES MÁS RÁPIDAS */
+    .notification-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.8);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.2s ease; /* Reducido de 0.3s a 0.2s */
+    }
+    
+    .notification-overlay.show {
+      opacity: 1;
+      visibility: visible;
+    }
+    
+    .notification-center {
+      background: #fff;
+      padding: 40px 35px;
+      border-radius: 0;
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+      border: 1.5px solid #000;
+      min-width: 380px;
+      max-width: 450px;
+      text-align: center;
+      transform: scale(0.8);
+      transition: transform 0.2s ease; /* Reducido de 0.3s a 0.2s */
+      position: relative;
+      color: #000;
+    }
+    
+    /* Líneas decorativas en notificaciones más cercanas a los bordes */
+    .notification-center::before {
+      content: '';
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      right: 10px;
+      bottom: 10px;
+      border: 1px solid rgba(0, 0, 0, 0.15);
+      pointer-events: none;
+    }
+    
+    .notification-overlay.show .notification-center {
+      transform: scale(1);
+    }
+    
+    .notification-icon {
+      font-size: 3.5rem;
+      margin-bottom: 25px;
+      position: relative;
+    }
+    
+    .notification-title {
+      font-family: var(--font-primary);
+      font-size: 1.6rem;
+      font-weight: 600;
+      margin-bottom: 20px;
+      color: #000;
+      letter-spacing: 1px;
+      position: relative;
+    }
+    
+    .notification-message {
+      font-family: var(--font-secondary);
+      font-size: 1.1rem;
+      color: #333;
+      line-height: 1.6;
+      margin-bottom: 0; /* Eliminamos margen inferior para notificaciones sin botón */
+      position: relative;
+    }
+    
+    /* Eliminamos completamente el botón de notificación */
+    .notification-close {
+      display: none;
+    }
+    
+    /* Colores para diferentes tipos de notificación */
+    .notification-success .notification-icon {
+      color: #4CAF50;
+    }
+    
+    .notification-error .notification-icon {
+      color: #f44336;
+    }
+    
+    .notification-loading .notification-icon {
+      color: #2196F3;
+      animation: spin 1s linear infinite;
+    }
+    
+    .notification-info .notification-icon {
+      color: #2196F3;
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
+    @media (max-width: 576px) {
+      .login-card {
+        padding: 30px 25px;
+        min-height: 450px;
+      }
+      
+      /* Ajustes para móviles - líneas más cercanas */
+      .login-card::before {
+        top: 10px;
+        left: 10px;
+        right: 10px;
+        bottom: 10px;
+      }
+      
+      .login-card::after {
+        top: 15px;
+        left: 15px;
+        right: 15px;
+        bottom: 15px;
+      }
+      
+      /* Ajustes de flores para móviles */
+      .line-flower {
+        font-size: 0.8rem;
+      }
+      
+      .flower-tl {
+        top: 9px;
+        left: 9px;
+      }
+      
+      .flower-tr {
+        top: 9px;
+        right: 9px;
+      }
+      
+      .flower-bl {
+        bottom: 9px;
+        left: 9px;
+      }
+      
+      .flower-br {
+        bottom: 9px;
+        right: 9px;
+      }
+      
+      .flower-tl-inner {
+        top: 14px;
+        left: 14px;
+      }
+      
+      .flower-tr-inner {
+        top: 14px;
+        right: 14px;
+      }
+      
+      .flower-bl-inner {
+        bottom: 24px;
+        left: 24px;
+      }
+      
+      .flower-br-inner {
+        bottom: 14px;
+        right: 14px;
+      }
+      
+      .form-section {
+        width: calc(100% - 50px);
+      }
+      
+      .login-logo {
+        font-size: 1.8rem;
+      }
+      
+      .login-links {
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+      }
+      
+      .notification-center {
+        min-width: 300px;
+        max-width: 350px;
+        margin: 20px;
+        padding: 35px 25px;
+      }
+      
+      .notification-center::before {
+        top: 8px;
+        left: 8px;
+        right: 8px;
+        bottom: 8px;
+      }
+      
+      .notification-icon {
+        font-size: 3rem;
+      }
+      
+      .notification-title {
+        font-size: 1.4rem;
+      }
+      
+      .notification-message {
+        font-size: 1rem;
+      }
+      
+      .elegant-spinner {
+        width: 50px;
+        height: 50px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Overlay para notificaciones centradas -->
+  <div id="notificationOverlay" class="notification-overlay">
+    <div class="notification-center" id="notificationCenter">
+      <!-- Contenido dinámico -->
+    </div>
+  </div>
+
+  <div class="login-container" id="formContainer">
+    <div class="login-card">
+      <!-- Flores en las esquinas de las líneas internas -->
+      <i class="bi bi-flower1 line-flower flower-tr"></i>
+      <i class="bi bi-flower1 line-flower flower-br"></i>
+      <i class="bi bi-flower1 line-flower flower-tl-inner"></i>
+      <i class="bi bi-flower1 line-flower flower-bl-inner"></i>
+      
+      <!-- Animación de carga elegante - MEJORADA -->
+      <div class="loading-animation" id="loadingAnimation">
+        <div class="elegant-spinner"></div>
+        <div class="loading-text">PROCESANDO</div>
+      </div>
+      
+      <!-- Formulario de Inicio de Sesión -->
+      <div class="form-section login-form">
+        <h1 class="login-logo">ESTILO REAL</h1>
+        <p class="login-subtitle">Inicia sesión en tu cuenta</p>
+        
+        <form id="loginForm">
+          <div class="form-group">
+            <label for="email" class="form-label">Correo electrónico</label>
+            <input type="email" class="form-input" id="email" name="email" placeholder="Ingresa tu correo electrónico" required>
+            <i class="bi bi-envelope input-icon"></i>
+          </div>
+          
+          <div class="form-group">
+            <label for="password" class="form-label">Contraseña</label>
+            <input type="password" class="form-input" id="password" name="password" placeholder="Ingresa tu contraseña" required>
+            <i class="bi bi-lock input-icon"></i>
+          </div>
+          
+          <button type="submit" class="btn-login" id="loginBtn">INICIAR SESIÓN</button>
+          
+          <div class="login-links">
+            <a href="#" id="forgotPassword">¿Olvidaste tu contraseña?</a>
+            <a href="#">Ayuda</a>
+          </div>
+        </form>
+        
+        <div class="signup-link">
+          ¿No tienes una cuenta? <a id="showRegister">Regístrate ahora</a>
+        </div>
+      </div>
+      
+      <!-- Formulario de Registro -->
+      <div class="form-section register-form">
+        <h1 class="login-logo">ESTILO REAL</h1>
+        <p class="login-subtitle">Crea tu cuenta de cliente</p>
+        
+        <form id="registerForm">
+          <div class="form-group">
+            <label for="name" class="form-label">Nombre completo</label>
+            <input type="text" class="form-input" id="name" name="name" placeholder="Ingresa tu nombre completo" required>
+            <i class="bi bi-person input-icon"></i>
+          </div>
+          
+          <div class="form-group">
+            <label for="registerEmail" class="form-label">Correo electrónico</label>
+            <input type="email" class="form-input" id="registerEmail" name="email" placeholder="Ingresa tu correo electrónico" required>
+            <i class="bi bi-envelope input-icon"></i>
+          </div>
+          
+          <div class="form-group">
+            <label for="registerPassword" class="form-label">Contraseña</label>
+            <input type="password" class="form-input" id="registerPassword" name="password" placeholder="Ingresa una contraseña segura" required minlength="6">
+            <i class="bi bi-lock input-icon"></i>
+          </div>
+          
+          <button type="submit" class="btn-login" id="registerBtn">CREAR CUENTA DE CLIENTE</button>
+        </form>
+        
+        <div class="back-to-login">
+          ¿Ya tienes una cuenta? <a id="showLoginBottom">Inicia sesión</a>
+        </div>
+      </div>
+      
+      <!-- Formulario de Recuperación de Contraseña -->
+      <div class="form-section forgot-password-form">
+        <h1 class="login-logo">ESTILO REAL</h1>
+        <p class="login-subtitle">Recupera tu contraseña</p>
+        
+        <form id="forgotPasswordForm">
+          <div class="form-group">
+            <label for="forgotEmail" class="form-label">Correo electrónico</label>
+            <input type="email" class="form-input" id="forgotEmail" name="email" placeholder="Ingresa tu correo electrónico" required>
+            <i class="bi bi-envelope input-icon"></i>
+          </div>
+          
+          <div class="form-group">
+            <label for="newPassword" class="form-label">Nueva contraseña</label>
+            <input type="password" class="form-input" id="newPassword" name="newPassword" placeholder="Ingresa tu nueva contraseña" required minlength="6">
+            <i class="bi bi-lock input-icon"></i>
+          </div>
+          
+          <div class="form-group">
+            <label for="confirmPassword" class="form-label">Confirmar nueva contraseña</label>
+            <input type="password" class="form-input" id="confirmPassword" name="confirmPassword" placeholder="Confirma tu nueva contraseña" required minlength="6">
+            <i class="bi bi-lock-fill input-icon"></i>
+          </div>
+          
+          <button type="submit" class="btn-login" id="forgotPasswordBtn">RESTABLECER CONTRASEÑA</button>
+        </form>
+        
+        <div class="back-to-login">
+          ¿Recordaste tu contraseña? <a id="showLoginFromForgot">Inicia sesión</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const formContainer = document.getElementById('formContainer');
+      const showRegister = document.getElementById('showRegister');
+      const showLoginBottom = document.getElementById('showLoginBottom');
+      const showLoginFromForgot = document.getElementById('showLoginFromForgot');
+      const forgotPassword = document.getElementById('forgotPassword');
+      const loginForm = document.getElementById('loginForm');
+      const registerForm = document.getElementById('registerForm');
+      const forgotPasswordForm = document.getElementById('forgotPasswordForm');
+      const loginBtn = document.getElementById('loginBtn');
+      const registerBtn = document.getElementById('registerBtn');
+      const forgotPasswordBtn = document.getElementById('forgotPasswordBtn');
+      const notificationOverlay = document.getElementById('notificationOverlay');
+      const notificationCenter = document.getElementById('notificationCenter');
+      const loadingAnimation = document.getElementById('loadingAnimation');
+      
+      // Estados del formulario
+      let currentState = 'login';
+      
+      // Función para cambiar entre formularios
+      function setFormState(state) {
+        formContainer.className = 'login-container';
+        currentState = state;
+        
+        switch(state) {
+          case 'login':
+            formContainer.classList.add('active-login');
+            break;
+          case 'register':
+            formContainer.classList.add('active-register');
+            break;
+          case 'forgot':
+            formContainer.classList.add('active-forgot');
+            break;
+        }
+      }
+      
+      // Cambiar entre formularios
+      showRegister.addEventListener('click', function(e) {
+        e.preventDefault();
+        setFormState('register');
+      });
+      
+      showLoginBottom.addEventListener('click', function(e) {
+        e.preventDefault();
+        setFormState('login');
+      });
+      
+      showLoginFromForgot.addEventListener('click', function(e) {
+        e.preventDefault();
+        setFormState('login');
+      });
+      
+      forgotPassword.addEventListener('click', function(e) {
+        e.preventDefault();
+        setFormState('forgot');
+      });
+      
+      // Función para mostrar animación de carga
+      function showLoading(show) {
+        if (show) {
+          loadingAnimation.classList.add('active');
+        } else {
+          loadingAnimation.classList.remove('active');
+        }
+      }
+      
+      // Función para mostrar notificaciones centradas
+      function showNotification(message, type, title = '') {
+        const icons = {
+          success: 'bi bi-check-circle',
+          error: 'bi bi-x-circle',
+          loading: 'bi bi-arrow-repeat',
+          info: 'bi bi-info-circle'
+        };
+        
+        const titles = {
+          success: title || '¡Éxito!',
+          error: title || 'Error',
+          loading: title || 'Procesando',
+          info: title || 'Información'
+        };
+        
+        const icon = icons[type] || 'bi bi-info-circle';
+        const notificationTitle = titles[type] || 'Notificación';
+        
+        notificationCenter.className = `notification-center notification-${type}`;
+        
+        // Para todas las notificaciones, no mostrar botón
+        notificationCenter.innerHTML = `
+          <i class="${icon} notification-icon"></i>
+          <h3 class="notification-title">${notificationTitle}</h3>
+          <p class="notification-message">${message}</p>
+        `;
+        
+        notificationOverlay.classList.add('show');
+        
+        // Para notificaciones de éxito, redirigir automáticamente
+        if (type === 'success') {
+          setTimeout(() => {
+            window.location.href = 'dashboard.php';
+          }, 1200); // Reducido de 1500ms a 1200ms
+        }
+        
+        // Para notificaciones de error/info, auto-cerrar después de 3 segundos (reducido de 4)
+        if (type === 'error' || type === 'info') {
+          setTimeout(() => {
+            closeNotification();
+          }, 3000);
+        }
+      }
+      
+      // Función para cerrar notificaciones
+      window.closeNotification = function() {
+        notificationOverlay.classList.remove('show');
+      }
+      
+      // Cerrar al hacer clic fuera del cuadro de notificación
+      notificationOverlay.addEventListener('click', function(e) {
+        if (e.target === notificationOverlay) {
+          closeNotification();
+        }
+      });
+      
+      // Función para estado de carga
+      function setLoading(button, isLoading) {
+        if (isLoading) {
+          button.disabled = true;
+          if (button.id === 'loginBtn') {
+            button.innerHTML = '<i class="bi bi-arrow-repeat"></i> VERIFICANDO...';
+          } else if (button.id === 'registerBtn') {
+            button.innerHTML = '<i class="bi bi-arrow-repeat"></i> REGISTRANDO CLIENTE...';
+          } else if (button.id === 'forgotPasswordBtn') {
+            button.innerHTML = '<i class="bi bi-arrow-repeat"></i> RESTABLECIENDO...';
+          }
+        } else {
+          button.disabled = false;
+          if (button.id === 'loginBtn') {
+            button.innerHTML = 'INICIAR SESIÓN';
+          } else if (button.id === 'registerBtn') {
+            button.innerHTML = 'CREAR CUENTA DE CLIENTE';
+          } else if (button.id === 'forgotPasswordBtn') {
+            button.innerHTML = 'RESTABLECER CONTRASEÑA';
+          }
+        }
+      }
+      
+      // Función para validar email
+      function isValidEmail(email) {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
+      }
+      
+      // Función para validar formulario de registro
+      function validateRegisterForm(name, email, password) {
+        if (!name.trim()) {
+          return 'El nombre completo es obligatorio';
+        }
+        
+        if (!isValidEmail(email)) {
+          return 'El correo electrónico no es válido';
+        }
+        
+        if (password.length < 6) {
+          return 'La contraseña debe tener al menos 6 caracteres';
+        }
+        
+        return null;
+      }
+      
+      // Función para validar formulario de recuperación de contraseña
+      function validateForgotPasswordForm(email, newPassword, confirmPassword) {
+        if (!isValidEmail(email)) {
+          return 'El correo electrónico no es válido';
+        }
+        
+        if (newPassword.length < 6) {
+          return 'La nueva contraseña debe tener al menos 6 caracteres';
+        }
+        
+        if (newPassword !== confirmPassword) {
+          return 'Las contraseñas no coinciden';
+        }
+        
+        return null;
+      }
+      
+      // Login
+      loginForm.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+        
+        // Validaciones básicas
+        if (!email || !password) {
+          showNotification('Todos los campos son obligatorios', 'error', 'Validación');
+          return;
+        }
+        
+        if (!isValidEmail(email)) {
+          showNotification('El correo electrónico no es válido', 'error', 'Validación');
+          return;
+        }
+        
+        setLoading(loginBtn, true);
+        showLoading(true);
+        
+        try {
+          const formData = new FormData();
+          formData.append('email', email);
+          formData.append('password', password);
+          
+          const response = await fetch('login.php', {
+            method: 'POST',
+            body: formData
+          });
+          
+          const data = await response.json();
+          
+          showLoading(false);
+          
+          if (data.status === 'success') {
+            showNotification(data.message, 'success', '¡Bienvenido!');
+            // La redirección se hace automáticamente en showNotification para tipo 'success'
+          } else {
+            showNotification(data.message, 'error', 'Error de inicio de sesión');
+          }
+        } catch (error) {
+          console.error('Error:', error);
+          showLoading(false);
+          showNotification('Error de conexión con el servidor', 'error', 'Error del sistema');
+        } finally {
+          setLoading(loginBtn, false);
+        }
+      });
+      
+      // Register
+      registerForm.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        const name = document.getElementById('name').value;
+        const email = document.getElementById('registerEmail').value;
+        const password = document.getElementById('registerPassword').value;
+        
+        // Validación del formulario
+        const validationError = validateRegisterForm(name, email, password);
+        if (validationError) {
+          showNotification(validationError, 'error', 'Validación');
+          return;
+        }
+        
+        setLoading(registerBtn, true);
+        showLoading(true);
+        
+        try {
+          const formData = new FormData();
+          formData.append('name', name);
+          formData.append('email', email);
+          formData.append('password', password);
+          
+          const response = await fetch('register.php', {
+            method: 'POST',
+            body: formData
+          });
+          
+          const data = await response.json();
+          
+          showLoading(false);
+          
+          if (data.status === 'success') {
+            showNotification(data.message, 'success', '¡Cuenta creada!');
+            // La redirección se hace automáticamente en showNotification para tipo 'success'
+          } else {
+            showNotification(data.message, 'error', 'Error de registro');
+          }
+        } catch (error) {
+          console.error('Error:', error);
+          showLoading(false);
+          showNotification('Error de conexión con el servidor', 'error', 'Error del sistema');
+        } finally {
+          setLoading(registerBtn, false);
+        }
+      });
+      
+      // Recuperación de contraseña
+      forgotPasswordForm.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        const email = document.getElementById('forgotEmail').value;
+        const newPassword = document.getElementById('newPassword').value;
+        const confirmPassword = document.getElementById('confirmPassword').value;
+        
+        // Validación del formulario
+        const validationError = validateForgotPasswordForm(email, newPassword, confirmPassword);
+        if (validationError) {
+          showNotification(validationError, 'error', 'Validación');
+          return;
+        }
+        
+        setLoading(forgotPasswordBtn, true);
+        showLoading(true);
+        
+        try {
+          const formData = new FormData();
+          formData.append('email', email);
+          formData.append('newPassword', newPassword);
+          formData.append('confirmPassword', confirmPassword);
+          
+          const response = await fetch('forgot_password.php', {
+            method: 'POST',
+            body: formData
+          });
+          
+          const data = await response.json();
+          
+          showLoading(false);
+          
+          if (data.status === 'success') {
+            showNotification(data.message, 'success', '¡Contraseña restablecida!');
+            // La redirección se hace automáticamente en showNotification para tipo 'success'
+          } else {
+            showNotification(data.message, 'error', 'Error al restablecer contraseña');
+          }
+        } catch (error) {
+          console.error('Error:', error);
+          showLoading(false);
+          showNotification('Error de conexión con el servidor', 'error', 'Error del sistema');
+        } finally {
+          setLoading(forgotPasswordBtn, false);
+        }
+      });
+    });
+  </script>
+</body>
+</html>

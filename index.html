@@ -27,9 +27,47 @@
     <link href="assets/dist/css/stilo.css" rel="stylesheet" />
     <link href="tienda/css/stilo.css" rel="stylesheet" />
 
-  
-    
+    <style>
+      /* Estilos para los enlaces de productos */
+      .btn-view-details {
+        display: inline-block;
+        background: #000;
+        color: #fff;
+        padding: 10px 20px;
+        text-decoration: none;
+        font-family: 'Inter', sans-serif;
+        font-size: 0.9rem;
+        letter-spacing: 0.5px;
+        transition: all 0.3s ease;
+        border: none;
+        cursor: pointer;
+      }
+      
+      .btn-view-details:hover {
+        background: #333;
+        color: #fff;
+        text-decoration: none;
+      }
 
+      /* Estilos para el botón de iniciar sesión */
+      .btn-login {
+        background: transparent;
+        color: #000;
+        border: 1px solid #000;
+        padding: 6px 15px;
+        font-family: 'Inter', sans-serif;
+        font-size: 0.85rem;
+        border-radius: 4px;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        margin-left: 10px;
+      }
+      
+      .btn-login:hover {
+        background: #000;
+        color: #fff;
+      }
+    </style>
   </head>
   <body>
     <svg xmlns="http://www.w3.org/2000/svg" class="d-none">
@@ -113,6 +151,11 @@
               <!-- Carrito de compras -->
               <a href="#" class="nav-icon">
                 <i class="bi bi-cart3"></i>
+              </a>
+              
+              <!-- Botón Iniciar Sesión -->
+              <a href="login/iniciarsesion.html" class="btn-login">
+                Iniciar Sesión
               </a>
             </div>
           </div>
@@ -243,7 +286,7 @@
           <span class="badge-sale">-20%</span>
           <img src="https://images.unsplash.com/photo-1740711152088-88a009e877bb?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtYW4lMjBzaGlydCUyMHN0eWxlfGVufDF8fHx8MTc2MTc3MDEzMnww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral" alt="Chaqueta">
              <div class="product-overlay">
-        <a href="#" class="btn-view-details">VER DETALLES</a>
+        <a href="detalle-producto.html?product=1" class="btn-view-details">VER DETALLES</a>
       </div>
           <button class="btn-fav"><i class="bi bi-heart"></i></button>
         </div>
@@ -262,7 +305,7 @@
           <span class="badge-new">Nuevo</span>
           <img src="https://images.unsplash.com/photo-1523381210434-271e8be1f52b?auto=format&fit=crop&w=800&q=80" alt="Vestido">
              <div class="product-overlay">
-        <a href="#" class="btn-view-details">VER DETALLES</a>
+        <a href="detalle-producto.html?product=2" class="btn-view-details">VER DETALLES</a>
       </div>
           <button class="btn-fav"><i class="bi bi-heart"></i></button>
         </div>
@@ -281,7 +324,7 @@
           <span class="badge-new">Nuevo</span>
           <img src="https://images.unsplash.com/photo-1761117228880-df2425bd70da?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx3b21hbiUyMGJsb3VzZXxlbnwxfHx8fDE3NjE3NzAzMzh8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral" alt="Blusa">
              <div class="product-overlay">
-        <a href="#" class="btn-view-details">VER DETALLES</a>
+        <a href="detalle-producto.html?product=3" class="btn-view-details">VER DETALLES</a>
       </div>
           <button class="btn-fav"><i class="bi bi-heart"></i></button>
         </div>
@@ -299,7 +342,7 @@
         <div class="product-image">
           <img src="https://images.unsplash.com/photo-1637819976869-928427bd7380?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzd2VhdGVyJTIwY2xvdGhpbmd8ZW58MXx8fHwxNzYxNzcwMTMyfDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral" alt="Suéter">
              <div class="product-overlay">
-        <a href="#" class="btn-view-details">VER DETALLES</a>
+        <a href="detalle-producto.html?product=4" class="btn-view-details">VER DETALLES</a>
       </div>
           <button class="btn-fav"><i class="bi bi-heart"></i></button>
         </div>
@@ -318,7 +361,7 @@
           <span class="badge-sale">-15%</span>
           <img src="https://images.unsplash.com/photo-1514996937319-344454492b37?auto=format&fit=crop&w=800&q=80" alt="Jeans">
              <div class="product-overlay">
-        <a href="#" class="btn-view-details">VER DETALLES</a>
+        <a href="detalle-producto.html?product=5" class="btn-view-details">VER DETALLES</a>
       </div>
           <button class="btn-fav"><i class="bi bi-heart"></i></button>
         </div>
@@ -336,7 +379,7 @@
         <div class="product-image">
           <img src="https://blackbison.co/cdn/shop/files/SNK_806_Negro_Lifestyle-10.webp?v=1760545329&width=1365" alt="Zapatos">
              <div class="product-overlay">
-        <a href="#" class="btn-view-details">VER DETALLES</a>
+        <a href="detalle-producto.html?product=6" class="btn-view-details">VER DETALLES</a>
       </div>
           <button class="btn-fav"><i class="bi bi-heart"></i></button>
         </div>
@@ -355,7 +398,7 @@
           <span class="badge-new">Nuevo</span>
           <img src="https://images.unsplash.com/photo-1551024601-bec78aea704b?auto=format&fit=crop&w=800&q=80" alt="Camisa blanca">
              <div class="product-overlay">
-        <a href="#" class="btn-view-details">VER DETALLES</a>
+        <a href="detalle-producto.html?product=7" class="btn-view-details">VER DETALLES</a>
       </div>
           <button class="btn-fav"><i class="bi bi-heart"></i></button>
         </div>
@@ -373,7 +416,7 @@
         <div class="product-image">
           <img src="https://images.unsplash.com/photo-1503341455253-b2e723bb3dbb?auto=format&fit=crop&w=800&q=80" alt="Abrigo largo">
              <div class="product-overlay">
-        <a href="#" class="btn-view-details">VER DETALLES</a>
+        <a href="detalle-producto.html?product=8" class="btn-view-details">VER DETALLES</a>
       </div>
           <button class="btn-fav"><i class="bi bi-heart"></i></button>
         </div>
@@ -392,7 +435,7 @@
           <span class="badge-sale">-10%</span>
           <img src="https://acdn-us.mitiendanube.com/stores/027/750/products/nube-runa-negro31-2ea636ef34daebab1116698435041290-480-0.webp" alt="Vestido negro">
              <div class="product-overlay">
-        <a href="#" class="btn-view-details">VER DETALLES</a>
+        <a href="detalle-producto.html?product=9" class="btn-view-details">VER DETALLES</a>
       </div>
           <button class="btn-fav"><i class="bi bi-heart"></i></button>
         </div>
@@ -410,7 +453,7 @@
         <div class="product-image">
           <img src="https://cdn.faire.com/fastly/08fa9aad998f3470da72c53c6ed6dc8640cd8266f1ee8afd91676124c0e4e3e2.jpeg?bg-color=FFFFFF&canvas=720:720&dpr=1&fit=bounds&format=jpg&height=720&width=720" alt="Bufanda">
              <div class="product-overlay">
-        <a href="#" class="btn-view-details">VER DETALLES</a>
+        <a href="detalle-producto.html?product=10" class="btn-view-details">VER DETALLES</a>
       </div>
           <button class="btn-fav"><i class="bi bi-heart"></i></button>
         </div>
@@ -429,7 +472,7 @@
           <span class="badge-new">Nuevo</span>
           <img src="https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=800&q=80" alt="Reloj">
              <div class="product-overlay">
-        <a href="#" class="btn-view-details">VER DETALLES</a>
+        <a href="detalle-producto.html?product=11" class="btn-view-details">VER DETALLES</a>
       </div>
           <button class="btn-fav"><i class="bi bi-heart"></i></button>
         </div>
@@ -447,7 +490,7 @@
         <div class="product-image">
           <img src="https://images.unsplash.com/photo-1502741338009-cac2772e18bc?auto=format&fit=crop&w=800&q=80" alt="Bolso negro">
              <div class="product-overlay">
-        <a href="#" class="btn-view-details">VER DETALLES</a>
+        <a href="detalle-producto.html?product=12" class="btn-view-details">VER DETALLES</a>
       </div>
           <button class="btn-fav"><i class="bi bi-heart"></i></button>
         </div>
