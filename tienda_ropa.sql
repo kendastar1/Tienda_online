@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 23-11-2025 a las 17:03:17
+-- Tiempo de generación: 24-11-2025 a las 18:22:18
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -81,7 +81,14 @@ INSERT INTO `actividades` (`id`, `usuario_id`, `accion`, `descripcion`, `tipo`, 
 (37, 2, 'Producto creado', 'Nuevo producto agregado: zapatos', 'inventario', NULL, '2025-11-23 04:44:02'),
 (38, 1, 'Producto creado', 'Nuevo producto agregado: Vestido Negro Noche', 'inventario', NULL, '2025-11-23 04:48:09'),
 (39, 1, 'Producto creado', 'Nuevo producto agregado: Bufanda de Cachemira', 'inventario', NULL, '2025-11-23 04:50:31'),
-(40, 2, 'Venta registrada', 'Venta #8 procesada exitosamente. Total: $178895.2', 'venta', 8, '2025-11-23 05:33:42');
+(40, 2, 'Venta registrada', 'Venta #8 procesada exitosamente. Total: $178895.2', 'venta', 8, '2025-11-23 05:33:42'),
+(41, 1, 'Producto actualizado', 'Producto actualizado: zapatos', 'inventario', NULL, '2025-11-23 20:41:31'),
+(42, 1, 'Producto creado', 'Nuevo producto agregado: traje elegante', 'inventario', NULL, '2025-11-23 20:47:29'),
+(43, 1, 'Producto actualizado', 'Producto actualizado: traje elegante', 'inventario', NULL, '2025-11-23 20:52:11'),
+(44, 1, 'Producto actualizado', 'Producto actualizado: traje elegante', 'inventario', NULL, '2025-11-23 20:56:57'),
+(45, 1, 'Producto creado', 'Nuevo producto agregado: pantalón elegante', 'inventario', NULL, '2025-11-23 20:58:56'),
+(46, 1, 'Producto creado', 'Nuevo producto agregado: pantalón elegante para dama', 'inventario', NULL, '2025-11-23 21:01:07'),
+(47, 1, 'Producto creado', 'Nuevo producto agregado: chaqueta', 'inventario', NULL, '2025-11-23 21:03:44');
 
 -- --------------------------------------------------------
 
@@ -92,20 +99,25 @@ INSERT INTO `actividades` (`id`, `usuario_id`, `accion`, `descripcion`, `tipo`, 
 CREATE TABLE `clientes_activos` (
   `id` int(11) NOT NULL,
   `nombre` varchar(100) NOT NULL,
+  `apellido` varchar(100) DEFAULT NULL,
   `correo` varchar(150) DEFAULT NULL,
   `telefono` varchar(20) DEFAULT NULL,
-  `estado` enum('activo','inactivo') DEFAULT 'activo',
-  `fecha_registro` timestamp NOT NULL DEFAULT current_timestamp()
+  `direccion` text DEFAULT NULL,
+  `ciudad` varchar(100) DEFAULT NULL,
+  `password` varchar(255) NOT NULL,
+  `fecha_registro` timestamp NOT NULL DEFAULT current_timestamp(),
+  `estado` enum('activo','inactivo') NOT NULL DEFAULT 'activo'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `clientes_activos`
 --
 
-INSERT INTO `clientes_activos` (`id`, `nombre`, `correo`, `telefono`, `estado`, `fecha_registro`) VALUES
-(1, 'Juan Pérez', 'juan@email.com', '555-2001', 'activo', '2025-11-18 01:44:23'),
-(2, 'María García', 'maria@email.com', '555-2002', 'activo', '2025-11-18 01:44:23'),
-(3, 'Carlos López', 'carlos@email.com', '555-2003', 'activo', '2025-11-18 01:44:23');
+INSERT INTO `clientes_activos` (`id`, `nombre`, `apellido`, `correo`, `telefono`, `direccion`, `ciudad`, `password`, `fecha_registro`, `estado`) VALUES
+(1, 'Juan Pérez', NULL, 'juan@email.com', NULL, NULL, NULL, 'cliente123', '2025-11-18 01:44:23', 'activo'),
+(2, 'María García', NULL, 'maria@email.com', NULL, NULL, NULL, 'cliente123', '2025-11-18 01:44:23', 'activo'),
+(3, 'Carlos López', NULL, 'carlos@email.com', NULL, NULL, NULL, 'cliente123', '2025-11-18 01:44:23', 'activo'),
+(5, 'Alex ortiz', NULL, 'kendastar100@gmail.com', NULL, NULL, NULL, '123456789', '2025-11-23 17:53:23', 'activo');
 
 -- --------------------------------------------------------
 
@@ -189,9 +201,13 @@ CREATE TABLE `productos_stock` (
 
 INSERT INTO `productos_stock` (`id`, `nombre`, `descripcion`, `precio`, `descuento`, `porcentaje_descuento`, `cantidad`, `categoria`, `sucursal_id`, `estado`, `imagen`, `fecha_creacion`) VALUES
 (9, 'camisa azul', 'camisa para caballero', 30000.00, 9000.00, 30, 44, 'camisas', 2, 'activo', '692290c78fb86_1763872967.jpg', '2025-11-21 22:04:32'),
-(10, 'zapatos', 'zapatos clásicos', 24000.00, 5280.00, 22, 39, 'camisas', 2, 'activo', '6922911285808_1763873042.webp', '2025-11-23 04:44:02'),
+(10, 'zapatos', 'zapatos clásicos', 24000.00, 5280.00, 22, 39, 'zapatos', 2, 'activo', '6922911285808_1763873042.webp', '2025-11-23 04:44:02'),
 (11, 'Vestido Negro Noche', 'vestido para dama elegante', 50000.00, 10500.00, 21, 39, 'vestidos', 1, 'activo', '69229209157d9_1763873289.webp', '2025-11-23 04:48:09'),
-(12, 'Bufanda de Cachemira', 'bufanda para dama', 75000.00, 0.00, 0, 19, 'accesorios', 1, 'activo', '69229297c35c4_1763873431.webp', '2025-11-23 04:50:31');
+(12, 'Bufanda de Cachemira', 'bufanda para dama', 75000.00, 0.00, 0, 19, 'accesorios', 1, 'activo', '69229297c35c4_1763873431.webp', '2025-11-23 04:50:31'),
+(14, 'traje elegante', 'camisa con pantalon elegante', 120000.00, 0.00, 0, 25, 'trajes', 1, 'activo', '69237519c823d_1763931417.jpg', '2025-11-23 20:47:29'),
+(15, 'pantalón elegante', 'un pantalon para caballero', 50000.00, 6000.00, 12, 25, 'pantalones', 1, 'activo', '69237590df29f_1763931536.webp', '2025-11-23 20:58:56'),
+(16, 'pantalón elegante para dama', 'un pantalón negro hermoso', 52000.00, 0.00, 0, 50, 'pantalones', 1, 'activo', '692376134c12a_1763931667.webp', '2025-11-23 21:01:07'),
+(17, 'chaqueta', 'una chaqueta para dama elegante', 48000.00, 2880.00, 6, 50, 'chaquetas', 1, 'activo', '692376b0a289f_1763931824.webp', '2025-11-23 21:03:44');
 
 -- --------------------------------------------------------
 
@@ -310,7 +326,8 @@ ALTER TABLE `actividades`
 -- Indices de la tabla `clientes_activos`
 --
 ALTER TABLE `clientes_activos`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `correo` (`correo`);
 
 --
 -- Indices de la tabla `detalle_pedidos`
@@ -381,13 +398,13 @@ ALTER TABLE `ventas`
 -- AUTO_INCREMENT de la tabla `actividades`
 --
 ALTER TABLE `actividades`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
 
 --
 -- AUTO_INCREMENT de la tabla `clientes_activos`
 --
 ALTER TABLE `clientes_activos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `detalle_pedidos`
@@ -411,7 +428,7 @@ ALTER TABLE `pedidos`
 -- AUTO_INCREMENT de la tabla `productos_stock`
 --
 ALTER TABLE `productos_stock`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT de la tabla `roles`
