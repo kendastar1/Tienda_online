@@ -739,7 +739,7 @@
     </div>
   </div>
 
-  <script>
+ <script>
     document.addEventListener('DOMContentLoaded', function() {
       const formContainer = document.getElementById('formContainer');
       const showRegister = document.getElementById('showRegister');
@@ -840,11 +840,11 @@
         // Para notificaciones de éxito, redirigir automáticamente
         if (type === 'success') {
           setTimeout(() => {
-            window.location.href = 'dashboard.php';
-          }, 1200); // Reducido de 1500ms a 1200ms
+            window.location.href = '../index.html'; // Cambiado de dashboard.php a index.html
+          }, 1200);
         }
         
-        // Para notificaciones de error/info, auto-cerrar después de 3 segundos (reducido de 4)
+        // Para notificaciones de error/info, auto-cerrar después de 3 segundos
         if (type === 'error' || type === 'info') {
           setTimeout(() => {
             closeNotification();
@@ -926,6 +926,18 @@
         
         return null;
       }
+
+      // Función para guardar información del usuario en localStorage
+      function saveUserInfo(data) {
+        if (data.user_name && data.user_email) {
+          localStorage.setItem('userName', data.user_name);
+          localStorage.setItem('userEmail', data.user_email);
+          localStorage.setItem('isLoggedIn', 'true');
+          if (data.user_id) {
+            localStorage.setItem('userId', data.user_id);
+          }
+        }
+      }
       
       // Login
       loginForm.addEventListener('submit', async function(e) {
@@ -963,8 +975,9 @@
           showLoading(false);
           
           if (data.status === 'success') {
+            // Guardar información del usuario en localStorage
+            saveUserInfo(data);
             showNotification(data.message, 'success', '¡Bienvenido!');
-            // La redirección se hace automáticamente en showNotification para tipo 'success'
           } else {
             showNotification(data.message, 'error', 'Error de inicio de sesión');
           }
@@ -1001,7 +1014,7 @@
           formData.append('email', email);
           formData.append('password', password);
           
-          const response = await fetch('register.php', {
+          const response = await fetch('register_cliente.php', {
             method: 'POST',
             body: formData
           });
@@ -1011,8 +1024,9 @@
           showLoading(false);
           
           if (data.status === 'success') {
+            // Guardar información del usuario en localStorage
+            saveUserInfo(data);
             showNotification(data.message, 'success', '¡Cuenta creada!');
-            // La redirección se hace automáticamente en showNotification para tipo 'success'
           } else {
             showNotification(data.message, 'error', 'Error de registro');
           }
@@ -1059,8 +1073,9 @@
           showLoading(false);
           
           if (data.status === 'success') {
+            // Guardar información del usuario en localStorage
+            saveUserInfo(data);
             showNotification(data.message, 'success', '¡Contraseña restablecida!');
-            // La redirección se hace automáticamente en showNotification para tipo 'success'
           } else {
             showNotification(data.message, 'error', 'Error al restablecer contraseña');
           }
@@ -1073,6 +1088,6 @@
         }
       });
     });
-  </script>
+</script>
 </body>
 </html>
