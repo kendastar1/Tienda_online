@@ -28,7 +28,6 @@
     <link href="tienda/css/stilo.css" rel="stylesheet" />
 
     <style>
-        
       /* Estilos específicos para la página de detalles del producto */
 .product-detail-section {
     padding: 100px 0 60px;
@@ -232,6 +231,7 @@
     border: 1px solid #e5e5e5;
     padding: 25px;
     margin-bottom: 20px;
+    border-radius: 8px;
 }
 
 .review-header {
@@ -259,6 +259,113 @@
     font-size: 0.95rem;
     line-height: 1.6;
     color: #666;
+}
+
+/* Estilos para el sistema de calificación con estrellas */
+.star-rating {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: flex-end;
+  gap: 5px;
+}
+
+.star-rating input {
+  display: none;
+}
+
+.star-label {
+  font-size: 1.8rem;
+  color: #ddd;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.star-rating input:checked ~ .star-label,
+.star-rating input:hover ~ .star-label,
+.star-label:hover {
+  color: #ffc107;
+}
+
+.star-rating:hover .star-label {
+  color: #ffc107;
+}
+
+.star-rating .star-label:hover ~ .star-label {
+  color: #ffc107;
+}
+
+/* Estilos para las reseñas */
+.review-rating {
+  display: flex;
+  gap: 2px;
+  margin-bottom: 10px;
+}
+
+.review-star {
+  color: #ffc107;
+  font-size: 1rem;
+}
+
+/* Estilos para el formulario de reseñas - MODIFICADO */
+.add-review-section {
+  background: #f9f9f9;
+  padding: 25px;
+  border-radius: 8px;
+  margin-bottom: 30px;
+  border: 2px solid #000; /* Borde negro agregado */
+}
+
+.add-review-section h3 {
+  font-family: 'Playfair Display', serif;
+  font-weight: 600;
+  color: #000; /* Color negro para el título */
+  margin-bottom: 25px;
+  font-size: 1.5rem;
+}
+
+.form-control {
+  border: 2px solid #000; /* Borde negro para los campos */
+  border-radius: 4px;
+  padding: 12px;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+  background-color: #fff; /* Fondo blanco fijo */
+  color: #000; /* Texto negro */
+}
+
+/* CORRECCIÓN: Eliminar el fondo negro al hacer focus */
+.form-control:focus {
+  border-color: #000;
+  box-shadow: 0 0 0 0.2rem rgba(0, 0, 0, 0.1);
+  outline: none;
+  background-color: #fff; /* Mantener fondo blanco */
+  color: #000; /* Mantener texto negro */
+}
+
+/* CORRECCIÓN: Eliminar estilos por defecto del navegador */
+.form-control:-webkit-autofill,
+.form-control:-webkit-autofill:hover, 
+.form-control:-webkit-autofill:focus {
+  -webkit-text-fill-color: #000;
+  -webkit-box-shadow: 0 0 0px 1000px #fff inset;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+.form-label {
+  font-family: 'Inter', sans-serif;
+  font-weight: 600; /* Más negrita */
+  color: #000; /* Color negro */
+  margin-bottom: 8px;
+  font-size: 1rem;
+}
+
+/* Estilos para cuando no hay reseñas */
+.no-reviews {
+  text-align: center;
+  padding: 40px;
+  color: #666;
+  font-family: 'Inter', sans-serif;
 }
 
 /* Estilos para el menú de usuario */
@@ -782,6 +889,81 @@
         grid-template-columns: 1fr;
     }
 }
+.fav-count {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background: #000;
+    color: white;
+    border-radius: 50%;
+    width: 18px;
+    height: 18px;
+    font-size: 0.7rem;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+}
+
+.btn-fav {
+    background: rgba(255, 255, 255, 0.9);
+    border: none;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 10;
+    font-size: 1.3rem;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+}
+
+.btn-fav.active {
+    background: #dc3545;
+    color: white;
+}
+
+.btn-fav:hover {
+    background: #dc3545;
+    color: white;
+    transform: scale(1.1);
+}
+
+/* Estilos para notificaciones */
+.notification {
+    position: fixed;
+    top: 100px;
+    right: 20px;
+    background: #000;
+    color: #fff;
+    padding: 15px 20px;
+    border-radius: 5px;
+    z-index: 9999;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.9rem;
+    animation: slideInRight 0.3s ease;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+@keyframes slideInRight {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
     </style>
   </head>
   <body>
@@ -833,51 +1015,49 @@
                 <a class="nav-link" href="index.html">Inicio</a>
               </li>
               
-              <!-- 
               <li class="nav-item">
-                <a class="nav-link" href="#">Colección</a>
+                <a class="nav-link" href="accesorios.html">Accesorios</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">Categorías</a>
+                <a class="nav-link" href="bolsos.html">Bolsos</a></li>
+              <li class="nav-item">
+                <a class="nav-link" href="relojes.html">Relojes</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">Nosotros</a>
+                <a class="nav-link" href="calzado.html">Calzado</a>
               </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">Contacto</a>
-              </li>
-            -->
             </ul>
-            <div class="nav-icons">
-              <!-- Barra de búsqueda integrada en el menú -->
-              <div class="search-container">
-                <input 
-                  type="text" 
-                  class="search-input" 
-                  placeholder="Buscar productos..."
-                >
-                <a href="#" class="nav-icon">
-                  <i class="bi bi-search"></i>
-                </a>
-                <div class="search-results" id="searchResults"></div>
-              </div>
-              
-              <!-- Corazón para favoritos -->
-              <a href="#" class="nav-icon">
-                <i class="bi bi-heart"></i>
-              </a>
-              
-              <!-- Carrito de compras -->
-              <a href="#" class="nav-icon" id="cartIcon">
-                <i class="bi bi-cart3"></i>
-                <span class="cart-count">0</span>
-              </a>
-              
-              <!-- Botón Iniciar Sesión o Menú de Usuario -->
-              <div id="authSection">
-                <!-- Se llenará dinámicamente con JavaScript -->
-              </div>
-            </div>
+                    <div class="nav-icons">
+          <!-- Barra de búsqueda integrada en el menú -->
+          <div class="search-container">
+            <input 
+              type="text" 
+              class="search-input" 
+              placeholder="Buscar productos..."
+            >
+            <a href="#" class="nav-icon">
+              <i class="bi bi-search"></i>
+            </a>
+            <div class="search-results" id="searchResults"></div>
+          </div>
+          
+          <!-- Corazón para favoritos - ACTUALIZADO -->
+          <a href="misfavoritos.html" class="nav-icon" id="favIcon">
+            <i class="bi bi-heart"></i>
+            <span class="fav-count">0</span>
+          </a>
+          
+          <!-- Carrito de compras -->
+          <a href="#" class="nav-icon" id="cartIcon">
+            <i class="bi bi-cart3"></i>
+            <span class="cart-count">0</span>
+          </a>
+          
+          <!-- Botón Iniciar Sesión o Menú de Usuario -->
+          <div id="authSection">
+            <!-- Se llenará dinámicamente con JavaScript -->
+          </div>
+        </div>
           </div>
         </div>
       </nav>
@@ -890,17 +1070,21 @@
           <div class="row">
             <!-- Columna de Imágenes -->
             <div class="col-md-6">
-              <div class="product-image-container">
-                <img 
-                  id="mainProductImage"
-                  alt="Producto" 
-                  class="product-main-image"
-                >
-              </div>
-              <div class="product-thumbnails" id="productThumbnails">
-                <!-- Las miniaturas se generarán dinámicamente -->
-              </div>
-            </div>
+  <div class="product-image-container">
+    <img 
+      id="mainProductImage"
+      alt="Producto" 
+      class="product-main-image"
+    >
+    <!-- Botón de favoritos agregado -->
+    <button class="btn-fav" id="productFavBtn">
+      <i class="bi bi-heart"></i>
+    </button>
+  </div>
+  <div class="product-thumbnails" id="productThumbnails">
+    <!-- Las miniaturas se generarán dinámicamente -->
+  </div>
+</div>
             
             <!-- Columna de Información -->
             <div class="col-md-6">
@@ -921,27 +1105,12 @@
                   Descripción del producto.
                 </p>
                 
-                <!-- Selección de Color
-                <div class="option-section">
-                  <h3 class="option-title">Seleccionar Color</h3>
-                  <div class="color-options" id="colorOptions">
-                    
-                  </div>
-                </div>
-                -->
-                
-                <!-- Selección de Talla -->
-                <div class="option-section">
-                  <h3 class="option-title">Seleccionar Talla</h3>
-                  <div class="size-options" id="sizeOptions">
-                    <!-- Las opciones de talla se generarán dinámicamente -->
-                  </div>
-                </div>
-                
+                <!-- BOTÓN AÑADIR AL CARRITO (sin las secciones eliminadas) -->
                 <button class="add-to-cart-btn">AÑADIR AL CARRITO</button>
                 
+                <!-- INFORMACIÓN DE ENVÍO ACTUALIZADA -->
                 <p class="shipping-info">
-                  <i class="bi bi-truck"></i> Envío gratis en pedidos superiores a $150. Recibe en 3-5 días hábiles.
+                  <i class="bi bi-truck"></i> Envío gratis en pedidos superiores a $150.000 COP. Recibe en 3-5 días hábiles.
                 </p>
                 <p class="shipping-info">
                   <i class="bi bi-arrow-repeat"></i> Devoluciones gratuitas hasta 30 días después de la compra.
@@ -958,11 +1127,48 @@
             </div>
           </div>
           
-          <!-- Sección de Opiniones de Clientes -->
+          <!-- Sección de Opiniones de Clientes - MODIFICADO -->
           <div class="reviews-section">
             <h2 class="section-title" style="color: #000;">Opiniones de Clientes</h2>
+            
+            <!-- Lista de reseñas existentes - AHORA ARRIBA -->
             <div id="productReviews">
               <!-- Las reseñas se generarán dinámicamente -->
+            </div>
+            
+            <!-- Formulario para agregar reseña - AHORA ABAJO -->
+            <div class="add-review-section">
+              <h3 class="mb-4">Deja tu reseña</h3>
+              
+              <!-- Sistema de calificación con estrellas -->
+              <div class="rating-input mb-3">
+                <p class="option-title">Tu calificación</p>
+                <div class="star-rating">
+                  <input type="radio" id="star5" name="rating" value="5">
+                  <label for="star5" class="star-label">★</label>
+                  <input type="radio" id="star4" name="rating" value="4">
+                  <label for="star4" class="star-label">★</label>
+                  <input type="radio" id="star3" name="rating" value="3">
+                  <label for="star3" class="star-label">★</label>
+                  <input type="radio" id="star2" name="rating" value="2">
+                  <label for="star2" class="star-label">★</label>
+                  <input type="radio" id="star1" name="rating" value="1">
+                  <label for="star1" class="star-label">★</label>
+                </div>
+              </div>
+              
+              <!-- Formulario de comentario -->
+              <form id="reviewForm">
+                <div class="mb-3">
+                  <label for="reviewerName" class="form-label">Tu nombre</label>
+                  <input type="text" class="form-control" id="reviewerName" required>
+                </div>
+                <div class="mb-3">
+                  <label for="reviewComment" class="form-label">Tu comentario</label>
+                  <textarea class="form-control" id="reviewComment" rows="4" required></textarea>
+                </div>
+                <button type="submit" class="add-to-cart-btn">Enviar Reseña</button>
+              </form>
             </div>
           </div>
         </div>
@@ -1036,8 +1242,8 @@
               </div>
             </form>
             
+            <!-- CONTACTO ACTUALIZADO (sin email) -->
             <div class="contact-info">
-              <p><i class="bi bi-envelope"></i> EstiloReal@gmail.com</p>
               <p><i class="bi bi-telephone"></i> +57 (310) 580-8082</p>
             </div>
           </div>
@@ -1231,30 +1437,169 @@
         });
       }
 
-      // Función para mostrar el producto actual
+      // ========== SISTEMA DE COMENTARIOS Y CALIFICACIONES ==========
+
+      // Función para obtener las reseñas de un producto desde localStorage
+      function getProductReviews(productId) {
+        const reviews = localStorage.getItem(`product_reviews_${productId}`);
+        return reviews ? JSON.parse(reviews) : [];
+      }
+
+      // Función para guardar las reseñas de un producto en localStorage
+      function saveProductReviews(productId, reviews) {
+        localStorage.setItem(`product_reviews_${productId}`, JSON.stringify(reviews));
+      }
+
+      // Función para calcular el promedio de calificaciones
+      function calculateAverageRating(reviews) {
+        if (reviews.length === 0) return 0;
+        
+        const total = reviews.reduce((sum, review) => sum + parseInt(review.rating), 0);
+        return (total / reviews.length).toFixed(2);
+      }
+
+      // Función para mostrar las estrellas de calificación
+      function displayRatingStars(rating, container) {
+        container.innerHTML = '';
+        
+        const fullStars = Math.floor(rating);
+        const hasHalfStar = rating % 1 !== 0;
+        
+        for (let i = 0; i < 5; i++) {
+          const star = document.createElement('i');
+          if (i < fullStars) {
+            star.className = 'bi bi-star-fill';
+          } else if (i === fullStars && hasHalfStar) {
+            star.className = 'bi bi-star-half';
+          } else {
+            star.className = 'bi bi-star';
+          }
+          container.appendChild(star);
+        }
+      }
+
+      // Función para mostrar las reseñas de un producto
+      function displayProductReviews(productId) {
+        const reviewsContainer = document.getElementById('productReviews');
+        const reviews = getProductReviews(productId);
+        
+        if (reviews.length === 0) {
+          reviewsContainer.innerHTML = `
+            <div class="no-reviews">
+              <p>Este producto aún no tiene reseñas.</p>
+              <p>Sé el primero en dejar tu opinión.</p>
+            </div>
+          `;
+          return;
+        }
+        
+        // Calcular el promedio de calificaciones
+        const averageRating = calculateAverageRating(reviews);
+        
+        // Actualizar la calificación en la sección de detalles del producto
+        const ratingContainer = document.getElementById('productRating');
+        const ratingText = document.getElementById('ratingText');
+        
+        displayRatingStars(averageRating, ratingContainer);
+        ratingText.textContent = `${averageRating} (${reviews.length} reseña${reviews.length !== 1 ? 's' : ''})`;
+        
+        // Mostrar las reseñas
+        reviewsContainer.innerHTML = reviews.map(review => `
+          <div class="review-card">
+            <div class="review-header">
+              <div>
+                <div class="reviewer-name">${review.name}</div>
+                <div class="review-date">${review.date}</div>
+              </div>
+              <div class="review-rating">
+                ${Array.from({length: 5}, (_, i) => 
+                  `<i class="bi ${i < review.rating ? 'bi-star-fill' : 'bi-star'} review-star"></i>`
+                ).join('')}
+              </div>
+            </div>
+            <div class="review-text">${review.comment}</div>
+          </div>
+        `).join('');
+      }
+
+      // Función para manejar el envío del formulario de reseñas
+      function handleReviewFormSubmit(productId) {
+        const reviewForm = document.getElementById('reviewForm');
+        
+        if (!reviewForm) return;
+        
+        reviewForm.addEventListener('submit', function(e) {
+          e.preventDefault();
+          
+          // Obtener los datos del formulario
+          const ratingInput = document.querySelector('input[name="rating"]:checked');
+          const nameInput = document.getElementById('reviewerName');
+          const commentInput = document.getElementById('reviewComment');
+          
+          // Validar que se haya seleccionado una calificación
+          if (!ratingInput) {
+            showNotification('Por favor, selecciona una calificación con estrellas');
+            return;
+          }
+          
+          // Crear objeto de reseña
+          const review = {
+            id: Date.now(), // ID único basado en timestamp
+            productId: productId,
+            rating: parseInt(ratingInput.value),
+            name: nameInput.value,
+            comment: commentInput.value,
+            date: new Date().toLocaleDateString('es-ES', {
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric'
+            })
+          };
+          
+          // Guardar la reseña
+          const reviews = getProductReviews(productId);
+          reviews.unshift(review); // Agregar al inicio para mostrar las más recientes primero
+          saveProductReviews(productId, reviews);
+          
+          // Actualizar la visualización de reseñas
+          displayProductReviews(productId);
+          
+          // Resetear el formulario
+          reviewForm.reset();
+          
+          // Desmarcar las estrellas
+          document.querySelectorAll('input[name="rating"]').forEach(input => {
+            input.checked = false;
+          });
+          
+          // Mostrar notificación de éxito
+          showNotification('¡Gracias por tu reseña!');
+        });
+      }
+
       function displayCurrentProduct(product) {
         if (!product) {
-          console.error('Producto no disponible');
-          document.body.innerHTML = '<div style="padding: 100px; text-align: center;"><h2>Producto no encontrado</h2></div>';
-          return;
+            console.error('Producto no disponible');
+            document.body.innerHTML = '<div style="padding: 100px; text-align: center;"><h2>Producto no encontrado</h2></div>';
+            return;
         }
 
         // Actualizar la información del producto
         document.getElementById('productCategory').textContent = product.categoria ? product.categoria.toUpperCase() : 'CATEGORÍA NO DISPONIBLE';
         document.getElementById('productTitle').textContent = product.nombre || 'Producto sin nombre';
         
-        // Actualizar el precio
+        // Actualizar el precio (convertir a pesos colombianos si es necesario)
         let priceHTML = '';
         if (product.precio) {
-          const hasDiscount = product.descuento && product.porcentaje_descuento > 0;
-          
-          if (hasDiscount && product.precio_final) {
-            priceHTML = `$${parseFloat(product.precio_final).toFixed(2)} <span style="text-decoration: line-through; color: #999; font-size: 1.2rem; margin-left: 10px;">$${parseFloat(product.precio).toFixed(2)}</span>`;
-          } else {
-            priceHTML = `$${parseFloat(product.precio).toFixed(2)}`;
-          }
+            const hasDiscount = product.descuento && product.porcentaje_descuento > 0;
+            
+            if (hasDiscount && product.precio_final) {
+                priceHTML = `$${parseFloat(product.precio_final).toLocaleString('es-CO')} COP <span style="text-decoration: line-through; color: #999; font-size: 1.2rem; margin-left: 10px;">$${parseFloat(product.precio).toLocaleString('es-CO')} COP</span>`;
+            } else {
+                priceHTML = `$${parseFloat(product.precio).toLocaleString('es-CO')} COP`;
+            }
         } else {
-          priceHTML = 'Precio no disponible';
+            priceHTML = 'Precio no disponible';
         }
         document.getElementById('productPrice').innerHTML = priceHTML;
         
@@ -1264,9 +1609,9 @@
         // Actualizar las imágenes
         const mainImage = document.getElementById('mainProductImage');
         if (product.imagen && product.imagen !== '') {
-          mainImage.src = product.imagen;
+            mainImage.src = product.imagen;
         } else {
-          mainImage.src = 'https://via.placeholder.com/600x800?text=Imagen+No+Disponible';
+            mainImage.src = 'https://via.placeholder.com/600x800?text=Imagen+No+Disponible';
         }
         mainImage.alt = product.nombre || 'Producto';
         
@@ -1282,127 +1627,87 @@
         thumbnail.className = 'product-thumbnail active';
         thumbnail.setAttribute('data-image', mainImage.src);
         thumbnail.addEventListener('click', function() {
-          mainImage.src = this.getAttribute('data-image');
+            mainImage.src = this.getAttribute('data-image');
         });
         thumbnailsContainer.appendChild(thumbnail);
         
-        // Actualizar la calificación (valores por defecto por ahora)
+        // Actualizar la calificación con reseñas reales
+        const reviews = getProductReviews(product.id);
+        const averageRating = calculateAverageRating(reviews);
         const ratingContainer = document.getElementById('productRating');
-        ratingContainer.innerHTML = '';
+        const ratingText = document.getElementById('ratingText');
         
-        const defaultRating = 4.0;
-        const reviewsCount = 0;
-        const fullStars = Math.floor(defaultRating);
-        const hasHalfStar = defaultRating % 1 !== 0;
+        displayRatingStars(averageRating, ratingContainer);
+        ratingText.textContent = `${averageRating} (${reviews.length} reseña${reviews.length !== 1 ? 's' : ''})`;
         
-        for (let i = 0; i < 5; i++) {
-          const star = document.createElement('i');
-          if (i < fullStars) {
-            star.className = 'bi bi-star-fill';
-          } else if (i === fullStars && hasHalfStar) {
-            star.className = 'bi bi-star-half';
-          } else {
-            star.className = 'bi bi-star';
-          }
-          ratingContainer.appendChild(star);
-        }
-        
-        document.getElementById('ratingText').textContent = `${defaultRating.toFixed(2)} (${reviewsCount} reseña${reviewsCount !== 1 ? 's' : ''})`;
-        
-        // Generar opciones de color (valores por defecto)
-        const colorOptionsContainer = document.getElementById('colorOptions');
-        colorOptionsContainer.innerHTML = '';
-        
-        const defaultColors = ['Negro', 'Blanco', 'Gris'];
-        defaultColors.forEach((color, index) => {
-          const colorOption = document.createElement('div');
-          colorOption.className = `color-option ${index === 0 ? 'active' : ''}`;
-          colorOption.setAttribute('data-color', color);
-          colorOption.title = color;
-          
-          // Asignar color de fondo basado en el nombre del color
-          let bgColor = '#2c2c2c'; // Negro por defecto
-          if (color === 'Blanco') {
-            bgColor = '#FFFFFF';
-            colorOption.style.border = '1px solid #e5e5e5'; // Borde para blanco
-          }
-          if (color === 'Gris') bgColor = '#808080';
-          
-          colorOption.style.backgroundColor = bgColor;
-          
-          colorOption.addEventListener('click', function() {
-            document.querySelectorAll('.color-option').forEach(o => o.classList.remove('active'));
-            this.classList.add('active');
-          });
-          colorOptionsContainer.appendChild(colorOption);
-        });
-        
-        // Generar opciones de talla (valores por defecto)
-        const sizeOptionsContainer = document.getElementById('sizeOptions');
-        sizeOptionsContainer.innerHTML = '';
-        
-        const defaultSizes = ['S', 'M', 'L', 'XL'];
-        defaultSizes.forEach((size, index) => {
-          const sizeOption = document.createElement('div');
-          sizeOption.className = `size-option ${index === 0 ? 'active' : ''}`;
-          sizeOption.textContent = size;
-          sizeOption.setAttribute('data-size', size);
-          
-          sizeOption.addEventListener('click', function() {
-            document.querySelectorAll('.size-option').forEach(o => o.classList.remove('active'));
-            this.classList.add('active');
-          });
-          sizeOptionsContainer.appendChild(sizeOption);
-        });
-        
-        // Generar reseñas (vacías por ahora)
-        const reviewsContainer = document.getElementById('productReviews');
-        reviewsContainer.innerHTML = `
-          <div style="text-align: center; padding: 40px; color: #666; font-family: 'Inter', sans-serif;">
-            <p>Este producto aún no tiene reseñas.</p>
-          </div>
-        `;
+        // Inicializar el sistema de reseñas
+        displayProductReviews(product.id);
+        handleReviewFormSubmit(product.id);
+
+        // Actualizar el botón de favoritos
+        updateFavButton(product.id);
 
         // Agregar funcionalidad al botón "Añadir al carrito"
         const addToCartBtn = document.querySelector('.add-to-cart-btn');
         addToCartBtn.addEventListener('click', function() {
-          const color = document.querySelector('.color-option.active')?.getAttribute('data-color') || 'Negro';
-          const talla = document.querySelector('.size-option.active')?.getAttribute('data-size') || 'M';
-          
-          carrito.agregarProducto(product, color, talla, 1);
+            // Ya no necesitamos color y talla
+            carrito.agregarProducto(product, 'Único', 'Única', 1);
         });
+
+        // Agregar funcionalidad al botón de favoritos
+        const favBtn = document.getElementById('productFavBtn');
+        if (favBtn) {
+            favBtn.addEventListener('click', function() {
+                const wasAdded = toggleFavorite(product.id);
+                
+                // Actualizar apariencia del botón
+                if (wasAdded) {
+                    this.classList.add('active');
+                    this.innerHTML = '<i class="bi bi-heart-fill"></i>';
+                    showNotification('Producto agregado a favoritos');
+                } else {
+                    this.classList.remove('active');
+                    this.innerHTML = '<i class="bi bi-heart"></i>';
+                    showNotification('Producto removido de favoritos');
+                }
+            });
+        }
       }
 
       // Función para buscar productos
       async function searchProducts(query) {
         if (!query.trim()) {
-          document.getElementById('searchResults').innerHTML = '';
-          document.getElementById('searchResults').style.display = 'none';
-          return;
+            document.getElementById('searchResults').innerHTML = '';
+            document.getElementById('searchResults').style.display = 'none';
+            return;
         }
 
         const products = await loadProducts();
         const results = products.filter(product => 
-          product.nombre.toLowerCase().includes(query.toLowerCase()) ||
-          product.descripcion.toLowerCase().includes(query.toLowerCase()) ||
-          product.categoria.toLowerCase().includes(query.toLowerCase())
+            product.nombre.toLowerCase().includes(query.toLowerCase()) ||
+            product.descripcion.toLowerCase().includes(query.toLowerCase()) ||
+            product.categoria.toLowerCase().includes(query.toLowerCase())
         ).slice(0, 5); // Mostrar máximo 5 resultados
 
         const searchResults = document.getElementById('searchResults');
         
         if (results.length === 0) {
-          searchResults.innerHTML = '<div class="search-result-item">No se encontraron productos</div>';
+            searchResults.innerHTML = '<div class="search-result-item">No se encontraron productos</div>';
         } else {
-          searchResults.innerHTML = results.map(product => `
-            <div class="search-result-item" onclick="window.location.href='detalle-producto.html?product=${product.id}'">
-              <img src="${product.imagen}" alt="${product.nombre}" 
-                   onerror="this.src='https://via.placeholder.com/40x40?text=Imagen'">
-              <div class="search-result-info">
-                <h5>${product.nombre}</h5>
-                <p>${product.categoria} - $${parseFloat(product.precio).toFixed(2)}</p>
-              </div>
-            </div>
-          `).join('');
+            searchResults.innerHTML = results.map(product => {
+                const isFav = isFavorite(product.id);
+                return `
+                <div class="search-result-item" onclick="window.location.href='detalle-producto.html?product=${product.id}'">
+                    <img src="${product.imagen}" alt="${product.nombre}" 
+                         onerror="this.src='https://via.placeholder.com/40x40?text=Imagen'">
+                    <div class="search-result-info">
+                        <h5>${product.nombre}</h5>
+                        <p>${product.categoria} - $${parseFloat(product.precio).toLocaleString('es-CO')} COP</p>
+                    </div>
+                    ${isFav ? '<i class="bi bi-heart-fill text-danger"></i>' : ''}
+                </div>
+                `;
+            }).join('');
         }
         
         searchResults.style.display = 'block';
@@ -1415,6 +1720,7 @@
 
         // Inicializar contador del carrito
         carrito.actualizarContadorCarrito();
+        updateFavCount();
 
         // Obtener el ID del producto de la URL
         const urlParams = new URLSearchParams(window.location.search);
@@ -1523,6 +1829,89 @@
         }
       `;
       document.head.appendChild(style);
+      
+      function getFavorites() {
+        const favorites = localStorage.getItem('favorites');
+        return favorites ? JSON.parse(favorites) : [];
+      }
+
+      // Función para guardar favoritos en localStorage
+      function saveFavorites(favorites) {
+        localStorage.setItem('favorites', JSON.stringify(favorites));
+        updateFavCount();
+      }
+
+      // Función para actualizar el contador de favoritos
+      function updateFavCount() {
+        const favorites = getFavorites();
+        const favCount = document.querySelector('.fav-count');
+        
+        if (favCount) {
+            if (favorites.length > 0) {
+                favCount.textContent = favorites.length;
+                favCount.style.display = 'flex';
+            } else {
+                favCount.style.display = 'none';
+            }
+        }
+      }
+
+      // Función para agregar/quitar producto de favoritos
+      function toggleFavorite(productId) {
+        const favorites = getFavorites();
+        const index = favorites.indexOf(productId);
+        
+        if (index > -1) {
+            // Remover de favoritos
+            favorites.splice(index, 1);
+        } else {
+            // Agregar a favoritos
+            favorites.push(productId);
+        }
+        
+        saveFavorites(favorites);
+        return index === -1; // Devuelve true si se agregó, false si se removió
+      }
+
+      // Función para verificar si un producto está en favoritos
+      function isFavorite(productId) {
+        const favorites = getFavorites();
+        return favorites.includes(productId);
+      }
+
+      // Función para mostrar notificación
+      function showNotification(message) {
+        // Crear elemento de notificación
+        const notification = document.createElement('div');
+        notification.className = 'notification';
+        notification.innerHTML = `
+            <i class="bi bi-check-circle"></i>
+            <span>${message}</span>
+        `;
+        
+        // Agregar al body
+        document.body.appendChild(notification);
+        
+        // Remover después de 3 segundos
+        setTimeout(() => {
+            notification.remove();
+        }, 3000);
+      }
+
+      // Función para actualizar el estado del botón de favoritos
+      function updateFavButton(productId) {
+        const favBtn = document.getElementById('productFavBtn');
+        if (favBtn) {
+            const isFav = isFavorite(productId);
+            if (isFav) {
+                favBtn.classList.add('active');
+                favBtn.innerHTML = '<i class="bi bi-heart-fill"></i>';
+            } else {
+                favBtn.classList.remove('active');
+                favBtn.innerHTML = '<i class="bi bi-heart"></i>';
+            }
+        }
+      }
     </script>
     
   </body>

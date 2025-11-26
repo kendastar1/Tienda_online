@@ -38,6 +38,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     case 3: // Cajero
                         header('Location: cajero.php');
                         break;
+                    
+                    case 6: // Marketing
+                        header('Location: marketing.php');
+                        break;
+                    case 7: // Proveedor
+                        header('Location: proveedores.php');
+                        break;
                     default:
                         $error = 'Rol no válido';
                 }

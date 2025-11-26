@@ -16,38 +16,37 @@ class Carrito {
     }
 
     // Agregar producto al carrito
-    // En carrito.js - función agregarProducto (mejorada)
-agregarProducto(producto, color, talla, cantidad = 1) {
-    // Asegurar que los precios sean números
-    const precio = parseFloat(producto.precio) || 0;
-    const precioFinal = parseFloat(producto.precio_final) || precio;
-    
-    const itemExistente = this.items.find(item => 
-        item.id === producto.id && 
-        item.color === color && 
-        item.talla === talla
-    );
+    agregarProducto(producto, color, talla, cantidad = 1) {
+        // Asegurar que los precios sean números
+        const precio = parseFloat(producto.precio) || 0;
+        const precioFinal = parseFloat(producto.precio_final) || precio;
+        
+        const itemExistente = this.items.find(item => 
+            item.id === producto.id && 
+            item.color === color && 
+            item.talla === talla
+        );
 
-    if (itemExistente) {
-        itemExistente.cantidad += cantidad;
-    } else {
-        this.items.push({
-            id: producto.id,
-            nombre: producto.nombre,
-            precio: precio,
-            precio_final: precioFinal,
-            imagen: producto.imagen,
-            color: color,
-            talla: talla,
-            cantidad: cantidad,
-            categoria: producto.categoria
-        });
+        if (itemExistente) {
+            itemExistente.cantidad += cantidad;
+        } else {
+            this.items.push({
+                id: producto.id,
+                nombre: producto.nombre,
+                precio: precio,
+                precio_final: precioFinal,
+                imagen: producto.imagen,
+                color: color,
+                talla: talla,
+                cantidad: cantidad,
+                categoria: producto.categoria
+            });
+        }
+
+        this.guardarCarrito();
+        this.actualizarContadorCarrito();
+        this.mostrarNotificacion('Producto agregado al carrito');
     }
-
-    this.guardarCarrito();
-    this.actualizarContadorCarrito();
-    this.mostrarNotificacion('Producto agregado al carrito');
-}
 
     // Eliminar producto del carrito
     eliminarProducto(index) {
@@ -112,79 +111,111 @@ agregarProducto(producto, color, talla, cantidad = 1) {
         }, 3000);
     }
 
-    renderizarCarrito() {
-    const carritoContainer = document.getElementById('cartSidebar');
-    if (!carritoContainer) return;
+    // Obtener información del usuario
+    getUserInfo() {
+        return {
+            userName: localStorage.getItem('userName'),
+            userEmail: localStorage.getItem('userEmail'),
+            userId: localStorage.getItem('userId'),
+            isLoggedIn: localStorage.getItem('isLoggedIn') === 'true'
+        };
+    }
 
-    if (this.items.length === 0) {
-        carritoContainer.innerHTML = `
-            <div class="empty-cart">
-                <i class="bi bi-cart-x"></i>
-                <p>Tu carrito está vacío</p>
+    // Ir al checkout - MODIFICADA PARA ELIMINAR ALERTAS
+    irAlCheckout() {
+        if (this.items.length === 0) {
+            this.mostrarNotificacion('El carrito está vacío');
+            return;
+        }
+
+        // Verificar si el usuario está logueado
+        const userInfo = this.getUserInfo();
+        if (!userInfo.isLoggedIn) {
+            // Redirigir directamente sin mostrar alerta
+            window.location.href = 'login/iniciarsesion.html?redirect=checkout';
+            return;
+        }
+
+        // Redirigir a la página de checkout SIN MOSTRAR ALERTAS
+        window.location.href = 'checkout.html';
+    }
+
+    renderizarCarrito() {
+        const carritoContainer = document.getElementById('cartSidebar');
+        if (!carritoContainer) return;
+
+        if (this.items.length === 0) {
+            carritoContainer.innerHTML = `
+                <div class="empty-cart">
+                    <i class="bi bi-cart-x"></i>
+                    <p>Tu carrito está vacío</p>
+                    <a href="index.html" class="btn-continue-shopping">Continuar comprando</a>
+                </div>
+            `;
+            return;
+        }
+
+        let html = `
+            <div class="cart-header">
+                <h3>Tu Carrito (${this.obtenerCantidadTotal()})</h3>
+                <button class="close-cart"><i class="bi bi-x"></i></button>
+            </div>
+            <div class="cart-items">
+        `;
+
+        this.items.forEach((item, index) => {
+            const precio = parseFloat(item.precio_final);
+            const subtotal = precio * item.cantidad;
+            
+            html += `
+                <div class="cart-item">
+                    <div class="item-image">
+                        <img src="${item.imagen}" alt="${item.nombre}" 
+                             onerror="this.src='https://via.placeholder.com/80x100?text=Imagen'">
+                    </div>
+                    <div class="item-details">
+                        <h4 class="item-title">${item.nombre}</h4>
+                        <p class="item-variants">Color: ${item.color} | Talla: ${item.talla}</p>
+                        <div class="item-controls">
+                            <div class="quantity-controls">
+                                <button class="btn-quantity minus" data-index="${index}">-</button>
+                                <span class="quantity">${item.cantidad}</span>
+                                <button class="btn-quantity plus" data-index="${index}">+</button>
+                            </div>
+                            <div class="item-price">
+                                $${precio.toFixed(2)} x ${item.cantidad} = $${subtotal.toFixed(2)}
+                            </div>
+                        </div>
+                    </div>
+                    <button class="btn-remove" data-index="${index}">
+                        <i class="bi bi-trash"></i>
+                    </button>
+                </div>
+            `;
+        });
+
+        html += `</div>`;
+
+        const total = this.obtenerTotal();
+        html += `
+            <div class="cart-footer">
+                <div class="cart-total">
+                    <span>Total:</span>
+                    <span class="total-amount">$${total.toFixed(2)}</span>
+                </div>
+                <button class="btn-checkout">
+                    <i class="bi bi-credit-card"></i>
+                    PROCEDER AL PAGO
+                </button>
                 <a href="index.html" class="btn-continue-shopping">Continuar comprando</a>
             </div>
         `;
-        return;
+
+        carritoContainer.innerHTML = html;
+
+        // Agregar event listeners
+        this.agregarEventListenersCarrito();
     }
-
-    let html = `
-        <div class="cart-header">
-            <h3>Tu Carrito (${this.obtenerCantidadTotal()})</h3>
-            <button class="close-cart"><i class="bi bi-x"></i></button>
-        </div>
-        <div class="cart-items">
-    `;
-
-    this.items.forEach((item, index) => {
-        const precio = parseFloat(item.precio_final);
-        const subtotal = precio * item.cantidad;
-        
-        html += `
-            <div class="cart-item">
-                <div class="item-image">
-                    <img src="${item.imagen}" alt="${item.nombre}" 
-                         onerror="this.src='https://via.placeholder.com/80x100?text=Imagen'">
-                </div>
-                <div class="item-details">
-                    <h4 class="item-title">${item.nombre}</h4>
-                    <p class="item-variants">Color: ${item.color} | Talla: ${item.talla}</p>
-                    <div class="item-controls">
-                        <div class="quantity-controls">
-                            <button class="btn-quantity minus" data-index="${index}">-</button>
-                            <span class="quantity">${item.cantidad}</span>
-                            <button class="btn-quantity plus" data-index="${index}">+</button>
-                        </div>
-                        <div class="item-price">
-                            $${precio.toFixed(2)} x ${item.cantidad} = $${subtotal.toFixed(2)}
-                        </div>
-                    </div>
-                </div>
-                <button class="btn-remove" data-index="${index}">
-                    <i class="bi bi-trash"></i>
-                </button>
-            </div>
-        `;
-    });
-
-    html += `</div>`;
-
-    const total = this.obtenerTotal();
-    html += `
-        <div class="cart-footer">
-            <div class="cart-total">
-                <span>Total:</span>
-                <span class="total-amount">$${total.toFixed(2)}</span>
-            </div>
-            <button class="btn-checkout">Proceder al Pago</button>
-            <a href="index.html" class="btn-continue-shopping">Continuar comprando</a>
-        </div>
-    `;
-
-    carritoContainer.innerHTML = html;
-
-    // Agregar event listeners
-    this.agregarEventListenersCarrito();
-}
 
     // Agregar event listeners a los controles del carrito
     agregarEventListenersCarrito() {
@@ -221,9 +252,11 @@ agregarProducto(producto, color, talla, cantidad = 1) {
             this.ocultarCarrito();
         });
 
-        // Proceder al pago
-        document.querySelector('.btn-checkout')?.addEventListener('click', () => {
-            alert('Funcionalidad de pago en desarrollo');
+        // Proceder al pago - MODIFICADO PARA PREVENIR ALERTAS
+        document.querySelector('.btn-checkout')?.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            this.irAlCheckout();
         });
     }
 

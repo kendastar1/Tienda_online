@@ -1,4 +1,3 @@
-
 <?php
 session_start();
 
@@ -442,8 +441,53 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['inventario_action'])) 
                     $_SESSION['success'] = "Producto actualizado correctamente";
                 }
             }
-            
-        } elseif ($action == 'delete_product') {
+          }elseif ($action == 'transferencia_stock') {
+            $producto_id = $_POST['producto_id'];
+            $sucursal_origen = $_POST['sucursal_origen'];
+            $sucursal_destino = $_POST['sucursal_destino'];
+            $cantidad = intval($_POST['cantidad']);
+            $motivo = $_POST['motivo'] ?? '';
+
+            if ($sucursal_origen == $sucursal_destino) {
+                $_SESSION['error'] = "La sucursal origen y destino no pueden ser la misma.";
+            } else {
+                // Verificar stock en origen
+                $sql = "SELECT cantidad FROM productos_stock WHERE id = ? AND sucursal_id = ?";
+                $stmt = $pdo->prepare($sql);
+                $stmt->execute([$producto_id, $sucursal_origen]);
+                $origen = $stmt->fetch(PDO::FETCH_ASSOC);
+
+                if (!$origen || $origen['cantidad'] < $cantidad) {
+                    $_SESSION['error'] = "No hay suficiente stock en la sucursal origen.";
+                } else {
+
+                    // RESTAR STOCK EN ORIGEN
+                    $pdo->prepare("UPDATE productos_stock SET cantidad = cantidad - ? WHERE id = ? AND sucursal_id = ?")
+                        ->execute([$cantidad, $producto_id, $sucursal_origen]);
+
+                    // SUMAR STOCK EN DESTINO
+                    $pdo->prepare("UPDATE productos_stock SET cantidad = cantidad + ? WHERE id = ? AND sucursal_id = ?")
+                        ->execute([$cantidad, $producto_id, $sucursal_destino]);
+
+                    // Registrar movimiento salida
+                    $pdo->prepare("INSERT INTO movimientos_stock (producto_id, tipo, cantidad, motivo, fecha, usuario_id, sucursal_id)
+                        VALUES (?, 'salida', ?, ?, NOW(), ?, ?)")
+                        ->execute([$producto_id, $cantidad, $motivo, $_SESSION['usuario_id'], $sucursal_origen]);
+
+                    // Registrar movimiento entrada
+                    $pdo->prepare("INSERT INTO movimientos_stock (producto_id, tipo, cantidad, motivo, fecha, usuario_id, sucursal_id)
+                        VALUES (?, 'entrada', ?, ?, NOW(), ?, ?)")
+                        ->execute([$producto_id, $cantidad, $motivo, $_SESSION['usuario_id'], $sucursal_destino]);
+
+                    $_SESSION['success'] = "Transferencia realizada correctamente.";
+                }
+            }
+
+            header("Location: admin.php?seccion=inventario");
+            exit();
+        }
+ 
+        elseif ($action == 'delete_product') {
             // Eliminar producto
             $product_id = $_POST['product_id'];
             
@@ -474,6 +518,73 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['inventario_action'])) 
                 $_SESSION['error'] = "Producto no encontrado";
             }
         }
+              elseif ($action == 'movimiento_stock') {
+
+              $producto_id = intval($_POST['producto_id']);
+              $tipo = $_POST['tipo']; // entrada / salida / ajuste
+              $cantidad = intval($_POST['cantidad']);
+              $motivo = trim($_POST['motivo'] ?? '');
+              $usuario_id = $_SESSION['usuario_id'];
+
+              // Validaciones
+              if ($cantidad <= 0) {
+                  $_SESSION['error'] = "La cantidad debe ser mayor que 0";
+              } else {
+                  // Obtener cantidad actual
+                  $sqlActual = "SELECT cantidad FROM productos_stock WHERE id = ?";
+                  $stmtActual = $pdo->prepare($sqlActual);
+                  $stmtActual->execute([$producto_id]);
+                  $producto = $stmtActual->fetch(PDO::FETCH_ASSOC);
+
+                  if (!$producto) {
+                      $_SESSION['error'] = "Producto no encontrado";
+                  } else {
+                      $cantidadActual = intval($producto['cantidad']);
+                      $nuevaCantidad = $cantidadActual;
+
+                      if ($tipo == 'entrada') {
+                          $nuevaCantidad += $cantidad;
+                      } elseif ($tipo == 'salida') {
+                          if ($cantidad > $cantidadActual) {
+                              $_SESSION['error'] = "No puedes retirar más de lo disponible";
+                          } else {
+                              $nuevaCantidad -= $cantidad;
+                          }
+                      } elseif ($tipo == 'ajuste') {
+                          $nuevaCantidad = $cantidad;
+                      }
+
+                      if (!isset($_SESSION['error'])) {
+
+                          // Actualizar stock
+                          $sqlUpdate = "UPDATE productos_stock SET cantidad = ? WHERE id = ?";
+                          $stmtUpdate = $pdo->prepare($sqlUpdate);
+                          $stmtUpdate->execute([$nuevaCantidad, $producto_id]);
+
+                          // Registrar movimiento en la tabla nueva
+                          $sqlMov = "INSERT INTO movimientos_stock 
+                                      (producto_id, tipo, cantidad, motivo, fecha, usuario_id) 
+                                      VALUES (?, ?, ?, ?, NOW(), ?)";
+
+                          $stmtMov = $pdo->prepare($sqlMov);
+                          $stmtMov->execute([$producto_id, $tipo, $cantidad, $motivo, $usuario_id]);
+
+                          // Registrar actividad en bitácora
+                          registrarActividad($pdo, $_SESSION['usuario_id'], 
+                              'Movimiento de inventario',
+                              "Movimiento: $tipo | Cantidad: $cantidad | Producto ID: $producto_id",
+                              'inventario');
+
+                          $_SESSION['success'] = "Movimiento registrado correctamente";
+                      }
+                  }
+              }
+
+              header("Location: admin.php?seccion=inventario");
+              exit();
+}
+
+
         
         // Redirigir para evitar reenvío del formulario
         header('Location: admin.php?seccion=inventario');
@@ -614,6 +725,25 @@ $seccion = isset($_GET['seccion']) ? $_GET['seccion'] : 'dashboard';
 // Solo ejecutar consultas del dashboard si estamos en esa sección
 if ($seccion == 'dashboard') {
     try {
+        // VERIFICAR ESTRUCTURA DE BASE DE DATOS
+        // Verificar si hay ventas en la base de datos
+        $sqlCheckVentas = "SELECT COUNT(*) as total_ventas FROM ventas WHERE estado = 'completada'";
+        $stmtCheckVentas = $pdo->query($sqlCheckVentas);
+        $totalVentas = $stmtCheckVentas->fetch(PDO::FETCH_ASSOC)['total_ventas'];
+        
+        // Verificar si hay detalles de ventas
+        $sqlCheckDetalles = "SELECT COUNT(*) as total_detalles FROM detalle_ventas";
+        $stmtCheckDetalles = $pdo->query($sqlCheckDetalles);
+        $totalDetalles = $stmtCheckDetalles->fetch(PDO::FETCH_ASSOC)['total_detalles'];
+        
+        // Verificar productos activos
+        $sqlCheckProductos = "SELECT COUNT(*) as total_productos FROM productos_stock WHERE estado = 'activo'";
+        $stmtCheckProductos = $pdo->query($sqlCheckProductos);
+        $totalProductos = $stmtCheckProductos->fetch(PDO::FETCH_ASSOC)['total_productos'];
+        
+        // DEBUG: Mostrar información de la base de datos
+        echo "<!-- DEBUG BD: Ventas=$totalVentas, Detalles=$totalDetalles, Productos=$totalProductos -->";
+
         // Ventas del mes actual
         $sqlVentasMes = "SELECT COALESCE(SUM(total), 0) as total_ventas 
                          FROM ventas 
@@ -641,7 +771,7 @@ if ($seccion == 'dashboard') {
         $productos = $stmtProductos->fetch(PDO::FETCH_ASSOC);
         $totalStock = $productos['total_stock'];
         
-        // Productos destacados del mes (más vendidos)
+        // Productos destacados del mes - CONSULTA MEJORADA
         $sqlProductosDestacados = "
             SELECT 
                 ps.id,
@@ -649,21 +779,53 @@ if ($seccion == 'dashboard') {
                 ps.descripcion,
                 ps.precio,
                 ps.cantidad as stock,
-                COALESCE(SUM(dp.cantidad), 0) as total_vendido,
-                COALESCE(SUM(dp.cantidad * dp.precio_unitario), 0) as ingresos_totales
+                COALESCE(SUM(dv.cantidad), 0) as total_vendido,
+                COALESCE(SUM(dv.subtotal), 0) as ingresos_totales,
+                COUNT(dv.id) as total_ventas
             FROM productos_stock ps
-            LEFT JOIN detalle_pedidos dp ON ps.id = dp.producto_id
-            LEFT JOIN pedidos p ON dp.pedido_id = p.id
-            LEFT JOIN ventas v ON p.id = v.pedido_id
-            WHERE MONTH(v.fecha_venta) = MONTH(CURRENT_DATE()) 
-            AND YEAR(v.fecha_venta) = YEAR(CURRENT_DATE())
+            LEFT JOIN detalle_ventas dv ON ps.id = dv.producto_id
+            LEFT JOIN ventas v ON dv.venta_id = v.id 
+                AND MONTH(v.fecha_venta) = MONTH(CURRENT_DATE()) 
+                AND YEAR(v.fecha_venta) = YEAR(CURRENT_DATE())
+                AND v.estado = 'completada'
+            WHERE ps.estado = 'activo'
             GROUP BY ps.id, ps.nombre, ps.descripcion, ps.precio, ps.cantidad
-            ORDER BY total_vendido DESC
+            HAVING total_vendido > 0
+            ORDER BY total_vendido DESC, ingresos_totales DESC
             LIMIT 5
         ";
         
         $stmtProductosDestacados = $pdo->query($sqlProductosDestacados);
         $productosDestacados = $stmtProductosDestacados->fetchAll(PDO::FETCH_ASSOC);
+        
+        // Si no hay productos vendidos este mes, mostrar productos con stock
+        if (empty($productosDestacados)) {
+            $sqlProductosAlternativos = "
+                SELECT 
+                    id,
+                    nombre,
+                    descripcion,
+                    precio,
+                    cantidad as stock,
+                    0 as total_vendido,
+                    0 as ingresos_totales,
+                    0 as total_ventas
+                FROM productos_stock 
+                WHERE estado = 'activo' 
+                AND cantidad > 0
+                ORDER BY fecha_creacion DESC, cantidad DESC
+                LIMIT 5
+            ";
+            
+            $stmtAlternativos = $pdo->query($sqlProductosAlternativos);
+            $productosDestacados = $stmtAlternativos->fetchAll(PDO::FETCH_ASSOC);
+        }
+        
+        // DEBUG: Mostrar información de productos destacados
+        echo "<!-- DEBUG: totalProductosDestacados = " . count($productosDestacados) . " -->";
+        if (!empty($productosDestacados)) {
+            echo "<!-- DEBUG Primer Producto: " . htmlspecialchars($productosDestacados[0]['nombre']) . " -->";
+        }
         
         // Ventas por sucursal
         $sqlVentasSucursal = "
@@ -711,6 +873,7 @@ if ($seccion == 'dashboard') {
         $productosDestacados = [];
         $ventasSucursal = [];
         $actividades = [];
+        error_log("Error en dashboard: " . $e->getMessage());
     }
 }
 
@@ -841,6 +1004,71 @@ $infoSeccion = obtenerInfoSeccion($seccion);
         background: #3b82f6;
         color: white;
         border-color: #3b82f6;
+      }
+
+      /* Estilos para productos destacados */
+      .featured-products .badge {
+        background: linear-gradient(135deg, #f59e0b, #d97706);
+        color: white;
+        padding: 4px 12px;
+        border-radius: 20px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        margin-left: 10px;
+      }
+
+      .product-card.featured {
+        border: 2px solid #f59e0b;
+        background: linear-gradient(135deg, #fffbeb, #fef3c7);
+      }
+
+      .product-badge {
+        position: absolute;
+        top: 12px;
+        right: 12px;
+        background: #10b981;
+        color: white;
+        padding: 6px 12px;
+        border-radius: 20px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+      }
+
+      .stat-value.low-stock {
+        color: #ef4444;
+        font-weight: 600;
+      }
+
+      .stat-value.good-stock {
+        color: #10b981;
+        font-weight: 600;
+      }
+
+      .no-data {
+        text-align: center;
+        padding: 60px 20px;
+        background: white;
+        border-radius: 12px;
+        border: 2px dashed #e2e8f0;
+      }
+
+      .no-data .material-symbols-rounded {
+        font-size: 64px;
+        color: #cbd5e1;
+        margin-bottom: 20px;
+      }
+
+      .no-data h3 {
+        color: #64748b;
+        margin-bottom: 10px;
+      }
+
+      .no-data p {
+        color: #94a3b8;
+        margin-bottom: 20px;
       }
     </style>
     <style>
@@ -1815,13 +2043,18 @@ $infoSeccion = obtenerInfoSeccion($seccion);
         <section class="featured-products">
           <h2 class="section-title">
             <span class="material-symbols-rounded">star</span>
-            Productos Destacados del Mes
+            Productos Destacados
+            <?php if (!empty($productosDestacados) && $productosDestacados[0]['total_vendido'] > 0): ?>
+              <span class="badge">Este Mes</span>
+            <?php else: ?>
+              <span class="badge">Recomendados</span>
+            <?php endif; ?>
           </h2>
           
           <?php if (!empty($productosDestacados)): ?>
             <div class="products-grid">
-              <?php foreach ($productosDestacados as $producto): ?>
-                <div class="product-card">
+              <?php foreach ($productosDestacados as $index => $producto): ?>
+                <div class="product-card <?php echo $index === 0 ? 'featured' : ''; ?>">
                   <div class="product-header">
                     <div>
                       <div class="product-name"><?php echo htmlspecialchars($producto['nombre']); ?></div>
@@ -1831,26 +2064,52 @@ $infoSeccion = obtenerInfoSeccion($seccion);
                   </div>
                   
                   <div class="product-stats">
+                    <?php if ($producto['total_vendido'] > 0): ?>
+                      <div class="stat-item">
+                        <span class="stat-label">Vendidos este mes</span>
+                        <span class="stat-value sales-stat"><?php echo $producto['total_vendido']; ?> unidades</span>
+                      </div>
+                      <div class="stat-item">
+                        <span class="stat-label">Ingresos generados</span>
+                        <span class="stat-value revenue-stat">$<?php echo number_format($producto['ingresos_totales'], 2); ?></span>
+                      </div>
+                    <?php else: ?>
+                      <div class="stat-item">
+                        <span class="stat-label">Disponibles en stock</span>
+                        <span class="stat-value stock-stat"><?php echo $producto['stock']; ?> unidades</span>
+                      </div>
+                      <div class="stat-item">
+                        <span class="stat-label">Estado</span>
+                        <span class="stat-value status-stat">Disponible</span>
+                      </div>
+                    <?php endif; ?>
+                    
                     <div class="stat-item">
-                      <span class="stat-label">Ventas</span>
-                      <span class="stat-value sales-stat"><?php echo $producto['total_vendido']; ?> unidades</span>
-                    </div>
-                    <div class="stat-item">
-                      <span class="stat-label">Stock</span>
-                      <span class="stat-value stock-stat"><?php echo $producto['stock']; ?> disponibles</span>
-                    </div>
-                    <div class="stat-item">
-                      <span class="stat-label">Ingresos</span>
-                      <span class="stat-value revenue-stat">$<?php echo number_format($producto['ingresos_totales'], 2); ?></span>
+                      <span class="stat-label">Stock actual</span>
+                      <span class="stat-value <?php echo $producto['stock'] < 10 ? 'low-stock' : 'good-stock'; ?>">
+                        <?php echo $producto['stock']; ?> unidades
+                      </span>
                     </div>
                   </div>
+                  
+                  <?php if ($producto['total_vendido'] > 0): ?>
+                    <div class="product-badge">
+                      <span class="material-symbols-rounded">trending_up</span>
+                      Popular
+                    </div>
+                  <?php endif; ?>
                 </div>
               <?php endforeach; ?>
             </div>
           <?php else: ?>
             <div class="no-data">
               <span class="material-symbols-rounded">inventory_2</span>
-              <p>No hay datos de productos destacados disponibles</p>
+              <h3>No hay productos disponibles</h3>
+              <p>No se encontraron productos activos en el inventario.</p>
+              <a href="?seccion=inventario" class="btn-primary">
+                <span class="material-symbols-rounded">add</span>
+                Agregar Productos
+              </a>
             </div>
           <?php endif; ?>
         </section>
@@ -2104,7 +2363,7 @@ $infoSeccion = obtenerInfoSeccion($seccion);
           <?php endif; ?>
         </div>
 
-        <!-- Modal para registrar/editar usuario -->z
+        <!-- Modal para registrar/editar usuario -->
         <div class="modal" id="userModal">
           <div class="modal-content">
             <div class="modal-header">
@@ -2575,13 +2834,50 @@ $infoSeccion = obtenerInfoSeccion($seccion);
                     echo '<td><span class="status-badge status-' . $producto['estado'] . '">' . ucfirst($producto['estado']) . '</span></td>';
                     echo '<td>' . date('d/m/Y H:i', strtotime($producto['fecha_creacion'])) . '</td>';
                     echo '<td class="actions">';
-                    echo '<button class="btn-icon edit-product" data-id="' . $producto['id'] . '" data-nombre="' . htmlspecialchars($producto['nombre']) . '" data-descripcion="' . htmlspecialchars($producto['descripcion']) . '" data-precio="' . $producto['precio'] . '" data-descuento="' . $producto['descuento'] . '" data-porcentaje_descuento="' . $producto['porcentaje_descuento'] . '" data-cantidad="' . $producto['cantidad'] . '" data-categoria="' . htmlspecialchars($producto['categoria']) . '" data-sucursal_id="' . $producto['sucursal_id'] . '" data-estado="' . $producto['estado'] . '" data-imagen="' . htmlspecialchars($producto['imagen']) . '" title="Editar">';
-                    echo '<span class="material-symbols-rounded">edit</span>';
-                    echo '</button>';
-                    echo '<button class="btn-icon delete-product" data-id="' . $producto['id'] . '" data-nombre="' . htmlspecialchars($producto['nombre']) . '" title="Eliminar">';
-                    echo '<span class="material-symbols-rounded">delete</span>';
-                    echo '</button>';
+                    // BOTÓN TRANSFERIR STOCK ENTRE SUCURSALES
+                    echo '<button class="btn-icon transfer-stock"
+                            data-id="' . $producto['id'] . '"
+                            data-nombre="' . htmlspecialchars($producto['nombre']) . '"
+                            data-sucursal="' . $producto['sucursal_id'] . '"
+                            data-cantidad="' . $producto['cantidad'] . '"
+                            title="Transferir Stock">
+                            <span class="material-symbols-rounded">swap_horiz</span>
+                          </button>';
+
+                    // BOTÓN DE MOVIMIENTO DE STOCK
+                    echo '<button class="btn-icon stock-move"
+                            title="Registrar movimiento"
+                            onclick="abrirModalMovimiento(' . $producto['id'] . ', \'' . htmlspecialchars($producto['nombre']) . '\', ' . $producto['cantidad'] . ')">
+                            <span class="material-symbols-rounded">sync_alt</span>
+                          </button>';
+
+                    // BOTÓN EDITAR
+                    echo '<button class="btn-icon edit-product"
+                            data-id="' . $producto['id'] . '"
+                            data-nombre="' . htmlspecialchars($producto['nombre']) . '"
+                            data-descripcion="' . htmlspecialchars($producto['descripcion']) . '"
+                            data-precio="' . $producto['precio'] . '"
+                            data-descuento="' . $producto['descuento'] . '"
+                            data-porcentaje_descuento="' . $producto['porcentaje_descuento'] . '"
+                            data-cantidad="' . $producto['cantidad'] . '"
+                            data-categoria="' . htmlspecialchars($producto['categoria']) . '"
+                            data-sucursal_id="' . $producto['sucursal_id'] . '"
+                            data-estado="' . $producto['estado'] . '"
+                            data-imagen="' . htmlspecialchars($producto['imagen']) . '"
+                            title="Editar">
+                            <span class="material-symbols-rounded">edit</span>
+                          </button>';
+
+                    // BOTÓN ELIMINAR
+                    echo '<button class="btn-icon delete-product"
+                            data-id="' . $producto['id'] . '"
+                            data-nombre="' . htmlspecialchars($producto['nombre']) . '"
+                            title="Eliminar">
+                            <span class="material-symbols-rounded">delete</span>
+                          </button>';
+
                     echo '</td>';
+
                     echo '</tr>';
                   }
                 } else {
@@ -2735,6 +3031,95 @@ $infoSeccion = obtenerInfoSeccion($seccion);
             </form>
           </div>
         </div>
+        <!-- MODAL TRANSFERENCIA DE STOCK -->
+        <div class="modal" id="modalTransferencia">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Transferir Stock</h3>
+                    <button class="close-modal" onclick="cerrarModalTransferencia()">&times;</button>
+                </div>
+
+                <form method="POST" action="admin.php?seccion=inventario">
+                    <input type="hidden" name="inventario_action" value="transferencia_stock">
+                    <input type="hidden" id="transfer_producto_id" name="producto_id">
+                    <input type="hidden" id="transfer_sucursal_origen" name="sucursal_origen">
+
+                    <div style="padding: 0 24px;">
+
+                        <p><strong>Producto:</strong> <span id="transfer_producto_nombre"></span></p>
+                        <p><strong>Sucursal Origen:</strong> <span id="transfer_sucursal_origen_nombre"></span></p>
+                        <p><strong>Cantidad disponible:</strong> <span id="transfer_stock_disponible"></span></p>
+
+                        <div class="form-group">
+                            <label for="sucursal_destino">Sucursal Destino *</label>
+                            <select name="sucursal_destino" id="sucursal_destino" required>
+                                <option value="">Seleccione sucursal</option>
+                                <?php
+                                foreach ($sucursales as $s) {
+                                    echo '<option value="' . $s['id'] . '">' . htmlspecialchars($s['nombre']) . '</option>';
+                                }
+                                ?>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="transfer_cantidad">Cantidad a transferir *</label>
+                            <input type="number" name="cantidad" id="transfer_cantidad" min="1" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Motivo (opcional)</label>
+                            <textarea name="motivo" rows="3"></textarea>
+                        </div>
+
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" class="btn-secondary" onclick="cerrarModalTransferencia()">Cancelar</button>
+                        <button type="submit" class="btn-primary">Transferir</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Modal para movimientos de inventario -->
+        <div class="modal" id="movimientoModal">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h3 id="movimientoModalTitle">Registrar Movimiento</h3>
+              <button class="close-modal" onclick="document.getElementById('movimientoModal').classList.remove('show')">&times;</button>
+            </div>
+
+            <form method="POST" class="product-form">
+              <input type="hidden" name="inventario_action" value="registrar_movimiento">
+              <input type="hidden" id="mov_producto_id" name="producto_id">
+
+              <div class="form-group">
+                <label>Tipo de movimiento</label>
+                <select name="tipo" required>
+                  <option value="entrada">Entrada</option>
+                  <option value="salida">Salida</option>
+                  <option value="ajuste">Ajuste</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label>Cantidad</label>
+                <input type="number" name="cantidad" min="1" required>
+              </div>
+
+              <div class="form-group">
+                <label>Motivo</label>
+                <textarea name="motivo" rows="3"></textarea>
+              </div>
+
+              <div class="form-actions">
+                <button type="submit" class="btn-primary">Guardar</button>
+              </div>
+            </form>
+          </div>
+        </div>
+
 
         <script>
         function cambiarPaginaInventario(pagina) {
@@ -2939,6 +3324,14 @@ $infoSeccion = obtenerInfoSeccion($seccion);
               productModal.classList.add('show');
             });
           });
+          // Registrar movimiento
+          document.querySelectorAll('.movimiento-producto').forEach(btn => {
+            btn.addEventListener('click', function() {
+              document.getElementById('mov_producto_id').value = this.getAttribute('data-id');
+              document.getElementById('movimientoModal').classList.add('show');
+            });
+          });
+
           
           // Eliminar producto
           document.querySelectorAll('.delete-product').forEach(btn => {
@@ -3138,6 +3531,25 @@ $infoSeccion = obtenerInfoSeccion($seccion);
         </div>
 
         <script>
+        // ABRIR MODAL DE TRANSFERENCIA
+        document.addEventListener('click', function(e) {
+            if (e.target.closest('.transfer-stock')) {
+                const btn = e.target.closest('.transfer-stock');
+
+                document.getElementById('transfer_producto_id').value = btn.dataset.id;
+                document.getElementById('transfer_producto_nombre').innerText = btn.dataset.nombre;
+                document.getElementById('transfer_sucursal_origen').value = btn.dataset.sucursal;
+                document.getElementById('transfer_sucursal_origen_nombre').innerText = btn.dataset.sucursal;
+                document.getElementById('transfer_stock_disponible').innerText = btn.dataset.cantidad;
+
+                document.getElementById('modalTransferencia').classList.add('show');
+            }
+        });
+
+        function cerrarModalTransferencia() {
+            document.getElementById('modalTransferencia').classList.remove('show');
+        }
+
         document.addEventListener('DOMContentLoaded', function() {
             // Elementos del DOM para sucursales
             const addSucursalBtn = document.getElementById('addSucursalBtn');
@@ -3223,8 +3635,58 @@ $infoSeccion = obtenerInfoSeccion($seccion);
         
       <?php endif; ?>
     </main>
-    
+    <!-- MODAL DE MOVIMIENTO DE INVENTARIO -->
+        <div class="modal" id="modalMovimiento">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Registrar Movimiento</h3>
+                    <button class="close-modal" onclick="document.getElementById('modalMovimiento').classList.remove('show')">&times;</button>
+                </div>
+
+                <form method="POST" action="admin.php?seccion=inventario" id="formMovimientoStock">
+                    <input type="hidden" name="inventario_action" value="movimiento_stock">
+                    <input type="hidden" id="movimiento_producto_id" name="producto_id">
+
+                    <div style="padding: 0 24px;">
+                        <p><strong>Producto:</strong> <span id="movimiento_producto_nombre"></span></p>
+                        <p><strong>Cantidad Actual:</strong> <span id="movimiento_cantidad_actual"></span></p>
+
+                        <div class="form-group">
+                            <label for="mov_tipo">Tipo de Movimiento *</label>
+                            <select name="tipo" id="mov_tipo" required>
+                                <option value="entrada">Entrada</option>
+                                <option value="salida">Salida</option>
+                                <option value="ajuste">Ajuste</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="mov_cantidad">Cantidad *</label>
+                            <input type="number" name="cantidad" id="mov_cantidad" required min="1">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="mov_motivo">Motivo</label>
+                            <textarea name="motivo" id="mov_motivo" rows="3" placeholder="Ej: Ajuste por revisión, entrada de mercancía, etc."></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" class="btn-secondary" onclick="document.getElementById('modalMovimiento').classList.remove('show')">Cancelar</button>
+                        <button type="submit" class="btn-primary">Guardar Movimiento</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
     <script>
+      function abrirModalMovimiento(id, nombre, cantidad) {
+    document.getElementById('movimiento_producto_id').value = id;
+    document.getElementById('movimiento_producto_nombre').innerText = nombre;
+    document.getElementById('movimiento_cantidad_actual').innerText = cantidad;
+
+    document.getElementById('modalMovimiento').classList.add('show');
+}
       // Toggle del sidebar - MOSTRAR/OCULTAR al hacer clic en las 3 rayitas
       document.getElementById('menuToggle').addEventListener('click', function() {
         const sidebar = document.getElementById('sidebar');

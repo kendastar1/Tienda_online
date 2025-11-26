@@ -26,7 +26,7 @@
     <link href="carousel.css" rel="stylesheet" />
     <link href="assets/dist/css/stilo.css" rel="stylesheet" />
     <link href="tienda/css/stilo.css" rel="stylesheet" />
-
+    
     <style>
       /* Estilos para los enlaces de productos */
 .btn-view-details {
@@ -616,6 +616,32 @@
     color: #666;
     margin-top: 10px;
 }
+
+/* Estilos para favoritos */
+.fav-count {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background: #000;
+    color: white;
+    border-radius: 50%;
+    width: 18px;
+    height: 18px;
+    font-size: 0.7rem;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+}
+
+.btn-fav.active {
+    color: #dc3545;
+}
+
+.btn-fav.active i {
+    fill: #dc3545;
+}
     </style>
   </head>
   <body>
@@ -666,51 +692,53 @@
               <li class="nav-item">
                 <a class="nav-link active" aria-current="page" href="#">Inicio</a>
               </li>
-              <!-- 
+              
               <li class="nav-item">
-                <a class="nav-link" href="#">Colección</a>
+                <a class="nav-link" href="accesorios.html">Accesorios</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">Caballero</a>
+                <a class="nav-link" href="bolsos.html">Bolsos</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">Dama</a>
+                <a class="nav-link" href="relojes.html">Relojes</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">Contacto</a>
+                <a class="nav-link" href="calzado.html">Calzado</a>
               </li>
-              -->
+            
             </ul>
-            <div class="nav-icons">
-              <!-- Barra de búsqueda integrada en el menú -->
-              <div class="search-container">
-                <input 
-                  type="text" 
-                  class="search-input" 
-                  placeholder="Buscar productos..."
-                >
-                <a href="#" class="nav-icon">
-                  <i class="bi bi-search"></i>
-                </a>
-                <div class="search-results" id="searchResults"></div>
-              </div>
-              
-              <!-- Corazón para favoritos -->
-              <a href="#" class="nav-icon">
-                <i class="bi bi-heart"></i>
-              </a>
-              
-              <!-- Carrito de compras -->
-              <a href="#" class="nav-icon" id="cartIcon">
-                <i class="bi bi-cart3"></i>
-                <span class="cart-count">0</span>
-              </a>
-              
-              <!-- Botón Iniciar Sesión o Menú de Usuario -->
-              <div id="authSection">
-                <!-- Se llenará dinámicamente con JavaScript -->
-              </div>
-            </div>
+                    <div class="nav-icons">
+          <!-- Barra de búsqueda integrada en el menú -->
+          <div class="search-container">
+            <input 
+              type="text" 
+              class="search-input" 
+              placeholder="Buscar productos..."
+            >
+            <a href="#" class="nav-icon">
+              <i class="bi bi-search"></i>
+            </a>
+            <div class="search-results" id="searchResults"></div>
+          </div>
+          
+          
+          <!-- Corazón para favoritos - ACTUALIZA ESTE ENLACE -->
+          <a href="misfavoritos.html" class="nav-icon" id="favIcon">
+            <i class="bi bi-heart"></i>
+            <span class="fav-count">0</span>
+          </a>
+          
+          <!-- Carrito de compras -->
+          <a href="#" class="nav-icon" id="cartIcon">
+            <i class="bi bi-cart3"></i>
+            <span class="cart-count">0</span>
+          </a>
+          
+          <!-- Botón Iniciar Sesión o Menú de Usuario -->
+          <div id="authSection">
+            <!-- Se llenará dinámicamente con JavaScript -->
+          </div>
+        </div>
           </div>
         </div>
       </nav>
@@ -752,8 +780,9 @@
                 Descubre la exquisita colección de temporada. Refinamiento, distinción y elegancia en cada pieza.
               </p>
               <div class="carousel-buttons">
-                <a href="#" class="btn btn-elegant">EXPLORAR</a>
+              <!--<a href="#" class="btn btn-elegant">EXPLORAR</a>
                 <a href="#" class="btn btn-dark">VER COLECCIÓN</a>
+              -->
               </div>
             </div>
           </div>
@@ -768,8 +797,10 @@
                 Piezas únicas diseñadas para quienes buscan la excelencia en cada detalle y la perfección en el estilo.
               </p>
               <div class="carousel-buttons">
+                <!--
                 <a href="#" class="btn btn-elegant">DESCUBRIR</a>
                 <a href="#" class="btn btn-dark">RESERVAR</a>
+                -->
               </div>
             </div>
           </div>
@@ -784,8 +815,10 @@
                 Sé el primero en descubrir las tendencias que marcarán la próxima temporada. Frescura y sofisticación.
               </p>
               <div class="carousel-buttons">
+                <!--
                 <a href="#" class="btn btn-elegant">NOTIFICARME</a>
                 <a href="#" class="btn btn-dark">VER AVANCE</a>
+              -->
               </div>
             </div>
           </div>
@@ -826,6 +859,9 @@
             <button class="btn-filter" data-category="deportiva">Deportiva</button>
             <button class="btn-filter" data-category="trajes">Trajes</button>
             <button class="btn-filter" data-category="faldas">Faldas</button>
+            <!-- Nuevas categorías agregadas -->
+            <button class="btn-filter" data-category="bolsos">Bolsos</button>
+            <button class="btn-filter" data-category="relojes">Relojes</button>
           </div>
 
           <!-- Línea decorativa debajo de los botones -->
@@ -872,7 +908,9 @@
               Descubre tu estilo único con nuestra nueva colección urbana. 
               Donde la comodidad se encuentra con la elegancia contemporánea.
             </p>
+            <!--
             <a href="#" class="btn-video-explore">DESCUBRIR COLECCIÓN</a>
+            -->
           </div>
         </div>
       </section>
@@ -888,15 +926,15 @@
           <!-- Grid de colecciones -->
           <div class="collections-grid">
             <!-- RELOJES -->
-            <div class="collection-card">
-              <div class="collection-image">
-                <img src="https://images.unsplash.com/photo-1523170335258-f5ed11844a49?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Relojes de lujo">
-                <div class="collection-overlay">
-                  <h3 class="collection-title">RELOJES</h3>
-                  <a href="#" class="collection-link">VER COLECCIÓN</a>
-                </div>
-              </div>
+                    <div class="collection-card">
+          <div class="collection-image">
+            <img src="https://images.unsplash.com/photo-1523170335258-f5ed11844a49?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Relojes de lujo">
+            <div class="collection-overlay">
+              <h3 class="collection-title">RELOJES</h3>
+              <a href="relojes.html" class="collection-link">VER COLECCIÓN</a>
             </div>
+          </div>
+        </div>
 
             <!-- ACCESORIOS -->
             <div class="collection-card">
@@ -904,7 +942,7 @@
                 <img src="https://images.unsplash.com/photo-1594223274512-ad4803739b7c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Accesorios elegantes">
                 <div class="collection-overlay">
                   <h3 class="collection-title">ACCESORIOS</h3>
-                  <a href="#" class="collection-link">VER COLECCIÓN</a>
+                  <a href="accesorios.html" class="collection-link">VER COLECCIÓN</a>
                 </div>
               </div>
             </div>
@@ -915,7 +953,7 @@
                 <img src="https://images.unsplash.com/photo-1584917865442-de89df76afd3?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Bolsos de diseño">
                 <div class="collection-overlay">
                   <h3 class="collection-title">BOLSOS DE DISEÑO</h3>
-                  <a href="#" class="collection-link">VER COLECCIÓN</a>
+                  <a href="bolsos.html" class="collection-link">VER COLECCIÓN</a>
                 </div>
               </div>
             </div>
@@ -926,7 +964,7 @@
                 <img src="https://images.unsplash.com/photo-1542280756-74b2f55e73ab?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Calzado premium">
                 <div class="collection-overlay">
                   <h3 class="collection-title">CALZADO</h3>
-                  <a href="#" class="collection-link">VER COLECCIÓN</a>
+                  <a href="calzado.html" class="collection-link">VER COLECCIÓN</a>
                 </div>
               </div>
             </div>
@@ -1133,6 +1171,54 @@
         }
       }
 
+      // Función para obtener favoritos desde localStorage
+      function getFavorites() {
+        const favorites = localStorage.getItem('favorites');
+        return favorites ? JSON.parse(favorites) : [];
+      }
+
+      // Función para guardar favoritos en localStorage
+      function saveFavorites(favorites) {
+        localStorage.setItem('favorites', JSON.stringify(favorites));
+        updateFavCount();
+      }
+
+      // Función para agregar/quitar producto de favoritos
+      function toggleFavorite(productId) {
+        const favorites = getFavorites();
+        const index = favorites.indexOf(productId);
+        
+        if (index > -1) {
+          // Remover de favoritos
+          favorites.splice(index, 1);
+        } else {
+          // Agregar a favoritos
+          favorites.push(productId);
+        }
+        
+        saveFavorites(favorites);
+        return index === -1; // Devuelve true si se agregó, false si se removió
+      }
+
+      // Función para actualizar el contador de favoritos
+      function updateFavCount() {
+        const favorites = getFavorites();
+        const favCount = document.querySelector('.fav-count');
+        
+        if (favorites.length > 0) {
+          favCount.textContent = favorites.length;
+          favCount.style.display = 'flex';
+        } else {
+          favCount.style.display = 'none';
+        }
+      }
+
+      // Función para verificar si un producto está en favoritos
+      function isFavorite(productId) {
+        const favorites = getFavorites();
+        return favorites.includes(productId);
+      }
+
       // Función para crear la tarjeta de producto
       function createProductCard(product) {
         const hasDiscount = product.descuento && product.porcentaje_descuento > 0;
@@ -1150,6 +1236,10 @@
         // Normalizar la categoría para el filtro (minúsculas y guiones bajos para espacios)
         const normalizedCategory = product.categoria.toLowerCase().replace(/\s+/g, '_');
         
+        // Verificar si el producto está en favoritos
+        const isFav = isFavorite(product.id);
+        const favClass = isFav ? 'active' : '';
+        
         return `
           <div class="col-12 col-sm-6 col-md-4 col-lg-3" data-category="${normalizedCategory}">
             <div class="product-card">
@@ -1160,8 +1250,9 @@
                 <div class="product-overlay">
                   <a href="detalle-producto.html?product=${product.id}" class="btn-view-details">VER DETALLES</a>
                 </div>
-                <button class="btn-fav" style="    background: rgb(0 0 0 / 80%);
-"><i class="bi bi-heart"></i></button>
+                <button class="btn-fav ${favClass}" data-product-id="${product.id}">
+                  <i class="bi bi-heart${isFav ? '-fill' : ''}"></i>
+                </button>
               </div>
               <div class="product-info">
                 <p class="product-category">${product.categoria.toUpperCase()}</p>
@@ -1198,6 +1289,24 @@
         productsToShow.forEach((product) => {
           const productCard = createProductCard(product);
           productsContainer.innerHTML += productCard;
+        });
+        
+        // Agregar event listeners a los botones de favoritos
+        document.querySelectorAll('.btn-fav').forEach(button => {
+          button.addEventListener('click', function(e) {
+            e.preventDefault();
+            const productId = this.getAttribute('data-product-id');
+            const wasAdded = toggleFavorite(productId);
+            
+            // Actualizar apariencia del botón
+            if (wasAdded) {
+              this.classList.add('active');
+              this.innerHTML = '<i class="bi bi-heart-fill"></i>';
+            } else {
+              this.classList.remove('active');
+              this.innerHTML = '<i class="bi bi-heart"></i>';
+            }
+          });
         });
         
         // Actualizar contador de productos
@@ -1322,6 +1431,9 @@
         // Inicializar contador del carrito
         carrito.actualizarContadorCarrito();
 
+        // Inicializar contador de favoritos
+        updateFavCount();
+
         // Cargar productos desde la base de datos
         allProducts = await loadProducts();
         filteredProducts = [...allProducts];
@@ -1413,7 +1525,41 @@
             carrito.ocultarCarrito();
           });
         }
+
+        
+       
       });
     </script>
+    <script>
+// Sobrescribir la función del carrito para eliminar mensajes
+document.addEventListener('DOMContentLoaded', function() {
+    // Esperar a que el carrito se cargue
+    setTimeout(function() {
+        // Encontrar el botón de checkout en el sidebar del carrito
+        const checkoutBtn = document.querySelector('.btn-checkout');
+        
+        if (checkoutBtn) {
+            // Reemplazar el event listener existente
+            checkoutBtn.replaceWith(checkoutBtn.cloneNode(true));
+            
+            // Agregar nuevo event listener sin mensajes
+            const newCheckoutBtn = document.querySelector('.btn-checkout');
+            newCheckoutBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                
+                // Redirigir directamente sin mostrar mensajes
+                window.location.href = 'checkout.html';
+                
+                // O si quieres mantener la funcionalidad actual pero sin alertas:
+                // Simplemente no hagas nada aquí y deja que el código original funcione
+                // pero sin los alert()
+            });
+        }
+    }, 1000);
+});
+
+
+</script>
   </body>
 </html>
